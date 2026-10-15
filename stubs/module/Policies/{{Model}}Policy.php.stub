@@ -1,0 +1,33 @@
+<?php
+
+namespace {{namespace}}\Policies;
+
+use App\Models\User;
+use {{namespace}}\Models\{{Model}};
+
+/**
+ * Maps the actions to the module's permissions (module.json → "permissions").
+ * Add record-level rules here, e.g. authors may only edit their own drafts.
+ */
+class {{Model}}Policy
+{
+    public function viewAny(User $user): bool
+    {
+        return $user->can('{{slug}}.view');
+    }
+
+    public function create(User $user): bool
+    {
+        return $user->can('{{slug}}.create');
+    }
+
+    public function update(User $user, {{Model}} $item): bool
+    {
+        return $user->can('{{slug}}.edit');
+    }
+
+    public function delete(User $user, {{Model}} $item): bool
+    {
+        return $user->can('{{slug}}.delete');
+    }
+}

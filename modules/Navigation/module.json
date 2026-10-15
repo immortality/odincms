@@ -1,0 +1,23 @@
+{
+    "name": "Navigation",
+    "slug": "navigation",
+    "version": "1.0.0",
+    "description": {
+        "en": "Menus (header, footer, …) with nested links to pages, routes or content",
+        "ru": "Меню (шапка, подвал, …) с вложенными ссылками на страницы, маршруты и материалы",
+        "ky": "Тизмелер (баш жагы, төмөнкү бөлүгү, …) барактарга, маршруттарга жана материалдарга шилтемелер менен"
+    },
+    "core": true,
+    "provider": "Modules\\Navigation\\Providers\\NavigationServiceProvider",
+    "requires": ["groups"],
+    "admin_menu": {
+        "group": "appearance",
+        "icon": "fas fa-compass",
+        "order": 10,
+        "items": [
+            { "label": "navigation::admin.menu", "route": "admin.navigation.index", "permission": "navigation.view" }
+        ]
+    },
+    "permissions": ["navigation.view", "navigation.create", "navigation.edit", "navigation.delete"],
+    "widgets": []
+}

@@ -1,0 +1,29 @@
+/* ============================================================
+   DRAGULA 3.7 — base rules (replaces dragula.min.css, no CDN CSS needed)
+   + OdinAdmin look for the dragged copy and the drop placeholder.
+   ============================================================ */
+.gu-mirror {
+  position: fixed !important;
+  margin: 0 !important;
+  z-index: 9999 !important;
+  opacity: .95;
+  cursor: move;
+  box-shadow: var(--shadow-drop) !important;
+  transform: rotate(1.5deg) !important;   /* wins over .drag-item:hover lift */
+}
+.gu-hide { display: none !important; }
+.gu-unselectable { user-select: none !important; }
+
+/* Placeholder where the item will land */
+.gu-transit {
+  opacity: 1;
+  border-style: dashed !important;
+  border-color: var(--primary) !important;
+  background: var(--primary-soft) !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+.gu-transit > * { visibility: hidden; }
+
+body.is-dragging,
+body.is-dragging * { cursor: move !important; }

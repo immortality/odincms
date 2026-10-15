@@ -1,0 +1,87 @@
+/* ============================================================
+   LISTS & AVATARS — small avatars, activity feed, summary list
+   ============================================================ */
+.av-sm {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: .72rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+.av-sm.av-xs { width: 22px; height: 22px; font-size: .56rem; }
+
+/* A photo instead of initials, in any round avatar: <div class="av"><img src="…" alt=""></div> */
+:is(.av, .av-sm, .act-av) { overflow: hidden; }
+:is(.av, .av-sm, .act-av) > img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.av-sm.c1 { background: linear-gradient(135deg, #8B5CF6, #6366F1); }
+.av-sm.c2 { background: linear-gradient(135deg, #00B4D8, #0077B6); }
+.av-sm.c3 { background: linear-gradient(135deg, #F43F5E, #F97316); }
+.av-sm.c4 { background: linear-gradient(135deg, #8B5CF6, #D946EF); }
+.av-sm.c5 { background: linear-gradient(135deg, #10B981, #14B8A6); }
+
+/* Activity feed */
+.act {
+  display: flex;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #F1F5F9;
+}
+.act:last-child { border-bottom: 0; padding-bottom: 0; }
+.act:first-child { padding-top: 0; }
+
+.act-av {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: .78rem;
+  color: #fff;
+  flex-shrink: 0;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--border);
+}
+.act-av.c1 { background: linear-gradient(135deg, #8B5CF6, #6366F1); }
+.act-av.c2 { background: linear-gradient(135deg, #F59E0B, #F97316); }
+.act-av.c3 { background: linear-gradient(135deg, #00B4D8, #0077B6); }
+.act-av.c4 { background: linear-gradient(135deg, #EC4899, #F43F5E); }
+.act-av.c5 { background: linear-gradient(135deg, #10B981, #14B8A6); }
+
+.act-txt {
+  font-size: .85rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 2px;
+  line-height: 1.4;
+}
+.act-txt strong { font-weight: 600; }
+.act-time { font-size: .72rem; color: var(--text-muted); }
+
+/* Summary list: icon + label + value */
+.sum-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: var(--border-w) solid var(--border);
+}
+.sum-row:first-child { padding-top: 0; }
+.sum-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.sum-ico {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: .85rem;
+}
+.sum-label { flex: 1; font-size: .85rem; color: var(--text-body); }
+.sum-val { font-weight: 700; color: var(--text-dark); }

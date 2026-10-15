@@ -1,0 +1,188 @@
+/* ============================================================
+   BADGES — reference page: badges.html
+   Colours come from base/palette.css (same set as alerts):
+     primary (default), success, danger, warning, info, light, dark (+ violet, muted)
+
+   Styles:    .badge-soft  .badge-solid  .badge-outline
+   Modifiers: .badge-pill (round ends)  .badge-dot (leading dot)
+              .badge-sm / .badge-lg     .badge-square (icon-only)
+   Parts:     <i> icon, .badge-x remove button (data-dismiss="badge", js/app.js)
+   Extras:    .badge-status (soft pill + dot, used by tables), .badge-count,
+              .badge-pip, .badge-anchor, .presence, .code-tag
+
+   <span class="badge-soft success">Published</span>
+   <span class="badge-solid danger badge-pill"><i class="fas fa-fire"></i> Hot</span>
+   ============================================================ */
+.badge-soft,
+.badge-solid,
+.badge-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  vertical-align: middle;
+  text-decoration: none;
+}
+.badge-soft    { background: var(--c-bg); color: var(--c-text); }
+.badge-solid   { background: var(--c-solid); color: var(--c-on); }
+.badge-outline { background: #fff; border-color: var(--c-line); color: var(--c-text); }
+.badge-solid.light { border-color: var(--light-border); }
+a:is(.badge-soft, .badge-solid, .badge-outline):hover { filter: brightness(.96); }
+
+:is(.badge-soft, .badge-solid, .badge-outline) > i { font-size: .9em; }
+
+/* Modifiers */
+:is(.badge-soft, .badge-solid, .badge-outline).badge-pill { border-radius: var(--radius-pill); padding-left: 10px; padding-right: 10px; }
+:is(.badge-soft, .badge-solid, .badge-outline).badge-dot::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--c);
+}
+.badge-solid.badge-dot::before { background: var(--c-on); opacity: .85; }
+:is(.badge-soft, .badge-solid, .badge-outline).badge-sm { padding: 1px 6px; gap: 4px; font-size: .64rem; }
+:is(.badge-soft, .badge-solid, .badge-outline).badge-lg { padding: 5px 12px; gap: 6px; font-size: .8rem; }
+:is(.badge-soft, .badge-solid, .badge-outline).badge-square {
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  justify-content: center;
+}
+:is(.badge-soft, .badge-solid, .badge-outline).badge-square.badge-pill { border-radius: 50%; }
+
+/* Remove button inside a badge (tags, filters) */
+.badge-x {
+  width: 15px;
+  height: 15px;
+  margin: 0 -3px 0 1px;
+  padding: 0;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: inherit;
+  font-size: .6rem;
+  opacity: .6;
+  cursor: pointer;
+  transition: opacity .15s, background .15s;
+}
+.badge-x:hover { opacity: 1; background: rgba(15, 23, 42, .1); }
+.badge-solid:not(.light) .badge-x:hover { background: rgba(255, 255, 255, .22); }
+
+/* Status badge — soft pill with a dot. Used by tables (js/tables.js maps
+   statuses to colours: success, warning, danger, info, violet, muted). */
+.badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.35;
+  white-space: nowrap;
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+.badge-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--c);
+  flex-shrink: 0;
+}
+.badge-status.no-dot::before { display: none; }
+
+/* Counter: <span class="badge-count danger">12</span> */
+.badge-count {
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  background: var(--c-solid);
+  color: var(--c-on);
+  font-size: .64rem;
+  font-weight: 700;
+  line-height: 1;
+  vertical-align: middle;
+}
+.badge-count.soft { background: var(--c-bg); color: var(--c-text); }
+
+/* Badge pinned to the corner of a button / icon / avatar:
+   <span class="badge-anchor"><button class="icon-btn">…</button><span class="badge-count danger">3</span></span>
+   .badge-pip = dot only */
+.badge-anchor { position: relative; display: inline-flex; }
+.badge-anchor > .badge-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  box-shadow: 0 0 0 2px #fff;
+}
+.badge-pip {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--c-solid);
+  box-shadow: 0 0 0 2px #fff;
+}
+.badge-anchor > .badge-pip { position: absolute; top: 1px; right: 1px; }
+.badge-pip.pulse { animation: pip-pulse 1.8s ease-out infinite; }
+@keyframes pip-pulse {
+  0%   { box-shadow: 0 0 0 2px #fff, 0 0 0 2px color-mix(in srgb, var(--c) 50%, transparent); }
+  100% { box-shadow: 0 0 0 2px #fff, 0 0 0 9px transparent; }
+}
+@media (prefers-reduced-motion: reduce) { .badge-pip.pulse { animation: none; } }
+
+/* Presence dot on an avatar:
+   <span class="badge-anchor"><span class="av-sm c2">NM</span><span class="presence online"></span></span> */
+.presence {
+  position: absolute;
+  right: -1px;
+  bottom: -1px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  background: var(--border-strong);
+}
+.presence.online { background: var(--success); }
+.presence.away   { background: var(--warning); }
+.presence.busy   { background: var(--danger); }
+
+/* Small square code tag, e.g. translation languages: EN KY RU.
+   .missing = not translated yet */
+.code-tag {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: var(--radius-xs);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: .64rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+}
+.code-tag.missing {
+  background: transparent;
+  color: var(--border-strong);
+  box-shadow: inset 0 0 0 1px var(--border);
+  text-decoration: line-through;
+}
+.code-tags { display: inline-flex; flex-wrap: wrap; gap: 4px; }
+
+/* Badge groups / wrapping rows */
+.badge-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }

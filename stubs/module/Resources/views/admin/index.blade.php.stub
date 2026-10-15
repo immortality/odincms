@@ -1,0 +1,77 @@
+<x-admin-layout::app
+    :title="__('{{slug}}::admin.title')"
+    :description="__('{{slug}}::admin.description')"
+    :breadcrumbs="[__('Dashboard') => url(config('cms.admin_prefix')), __('{{slug}}::admin.title') => null]">
+
+    @can('create', \{{namespace}}\Models\{{Model}}::class)
+        <x-slot:actions>
+            <li>
+                <a href="{{ route('admin.{{slug}}.create') }}" class="btn btn-primary">
+                    <em class="icon ni ni-plus"></em><span>{{ __('{{slug}}::admin.create') }}</span>
+                </a>
+            </li>
+        </x-slot:actions>
+    @endcan
+
+    <div class="nk-block">
+        <x-admin.table bulk-form="bulk-form" :empty="__('{{slug}}::admin.empty')">
+            <x-slot:toolbar>
+                <x-admin.bulk-actions :action="route('admin.{{slug}}.bulk')" :actions="__('{{slug}}::admin.actions')" />
+                <x-admin.filters :placeholder="__('{{slug}}::admin.search')">
+                    <div class="w-150px">
+                        <select name="status" class="form-select">
+                            <option value="">{{ __('{{slug}}::admin.all_statuses') }}</option>
+                            @foreach (__('{{slug}}::admin.statuses') as $value => $label)
+                                <option value="{{ $value }}" @selected(request('status') === $value)>{{ $label }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </x-admin.filters>
+            </x-slot:toolbar>
+
+            <x-slot:head>
+                <div class="nk-tb-col"><span class="sub-text">{{ __('{{slug}}::admin.fields.title') }}</span></div>
+                <div class="nk-tb-col tb-col-md"><span class="sub-text">{{ __('{{slug}}::admin.fields.is_active') }}</span></div>
+                <div class="nk-tb-col tb-col-lg"><span class="sub-text">{{ __('{{slug}}::admin.fields.updated_at') }}</span></div>
+                <div class="nk-tb-col nk-tb-col-tools text-end"></div>
+            </x-slot:head>
+
+            @foreach ($items as $item)
+                <div class="nk-tb-item">
+                    <x-admin.table.check :value="$item->id" />
+                    <div class="nk-tb-col">
+                        @can('update', $item)
+                            <a href="{{ route('admin.{{slug}}.edit', $item) }}" class="tb-lead">{{ $item->title }}</a>
+                        @else
+                            <span class="tb-lead">{{ $item->title }}</span>
+                        @endcan
+                    </div>
+                    <div class="nk-tb-col tb-col-md">
+                        <span @class(['badge badge-dot', 'bg-success' => $item->is_active, 'bg-light' => ! $item->is_active])>
+                            {{ __('{{slug}}::admin.statuses.'.($item->is_active ? 'active' : 'inactive')) }}
+                        </span>
+                    </div>
+                    <div class="nk-tb-col tb-col-lg"><span>{{ $item->updated_at?->format('d M Y H:i') }}</span></div>
+                    <div class="nk-tb-col nk-tb-col-tools">
+                        <ul class="nk-tb-actions gx-1">
+                            @can('update', $item)
+                                <li>
+                                    <a href="{{ route('admin.{{slug}}.edit', $item) }}" class="btn btn-trigger btn-icon" title="{{ __('{{slug}}::admin.edit') }}">
+                                        <em class="icon ni ni-edit"></em>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('delete', $item)
+                                <li><x-admin.confirm-delete :action="route('admin.{{slug}}.destroy', $item)" icon-only /></li>
+                            @endcan
+                        </ul>
+                    </div>
+                </div>
+            @endforeach
+
+            <x-slot:footer>
+                <x-admin.pagination :paginator="$items" />
+            </x-slot:footer>
+        </x-admin.table>
+    </div>
+</x-admin-layout::app>

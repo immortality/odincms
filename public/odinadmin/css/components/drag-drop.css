@@ -1,0 +1,107 @@
+/* ============================================================
+   DRAG & DROP LISTS — reference page: dragula.html (js/dragula.js)
+
+   <div data-plugin="dragula" data-containers='["list-a","list-b"]' data-handle-class="drag-handle">
+     <div class="drag-column">
+       <div class="drag-column-head"><span>Part 1</span><span class="badge-count soft" data-drag-count="#list-a"></span></div>
+       <div class="drag-list" id="list-a">
+         <div class="drag-item">…<button class="drag-handle" type="button" aria-label="Drag"><i class="fas fa-grip-vertical"></i></button></div>
+       </div>
+     </div>
+   </div>
+   One list only: put data-plugin="dragula" on the .drag-list itself.
+   ============================================================ */
+.drag-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 72px;
+}
+/* Cards in a grid instead of a column */
+.drag-list.drag-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* Empty list: show where to drop */
+.drag-list:empty::before {
+  content: attr(data-empty);
+  display: grid;
+  place-items: center;
+  min-height: 72px;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-md);
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+.drag-list:empty:not([data-empty])::before { content: 'Drop items here'; }
+
+.drag-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  cursor: move;   /* not grab: Chrome on Windows can draw grab/grabbing white and invisible */
+  user-select: none;
+  transition: border-color .15s, box-shadow .15s, transform .15s;
+}
+/* Hover: clear "you can pick this up" feedback (teal-tinted border, lifted shadow) */
+.drag-item:hover {
+  border-color: color-mix(in srgb, var(--primary) 45%, var(--border));
+  box-shadow: 0 6px 16px -6px rgba(15, 23, 42, .16);
+  transform: translateY(-1px);
+}
+/* Handle items: only the grip drags, so the card itself gets a quieter hover */
+.drag-item.has-handle { cursor: default; align-items: center; user-select: auto; }
+.drag-item.has-handle:hover {
+  border-color: var(--border-strong);
+  box-shadow: 0 4px 12px -6px rgba(15, 23, 42, .12);
+  transform: none;
+}
+.drag-item-body { flex: 1; min-width: 0; }
+.drag-item-title { display: block; font-size: .86rem; font-weight: 600; color: var(--text-dark); }
+.drag-item-sub { display: block; font-size: .74rem; color: var(--text-muted); }
+.drag-item-text { margin: 8px 0 0; font-size: .8rem; line-height: 1.55; color: var(--text-body); }
+.drag-item .av-sm { width: 40px; height: 40px; font-size: .78rem; }
+.drag-item .sum-ico { flex-shrink: 0; }
+
+.drag-handle {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: move;   /* not grab: Chrome on Windows can draw grab/grabbing white and invisible */
+  transition: color .15s, background .15s;
+}
+.drag-item:hover .drag-handle { color: var(--text-body); background: var(--neutral-soft); }
+.drag-handle:hover { color: var(--primary) !important; background: var(--primary-soft); }
+
+/* Column wrapper with a title and a live item count */
+.drag-column {
+  height: 100%;
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  background: #F8FAFC;
+  border: 1px solid #EEF2F6;
+}
+.drag-column-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: .78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--text-muted);
+}

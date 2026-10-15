@@ -1,0 +1,43 @@
+/* ============================================================
+   OdinAdmin — main stylesheet
+   Only imports the parts below; edit the part files themselves.
+   Order matters: variables → base → layout → components.
+   ============================================================ */
+
+/* Base */
+@import url("base/variables.css");
+@import url("base/palette.css");
+@import url("base/base.css");
+
+/* Layout */
+@import url("layout/app.css");
+@import url("layout/sidebar.css");
+@import url("layout/topbar.css");
+@import url("layout/footer.css");
+
+/* Components */
+@import url("components/buttons.css");
+@import url("components/forms.css");
+@import url("components/badges.css");
+@import url("components/alerts.css");
+@import url("components/accordions.css");
+@import url("components/tabs.css");
+@import url("components/modals.css");
+@import url("components/drag-drop.css");
+@import url("components/cards.css");
+@import url("components/dropdowns.css");
+@import url("components/charts.css");
+@import url("components/tables.css");
+@import url("components/pagination.css");
+@import url("components/lists.css");
+
+/* Pages (only used by their own page) */
+@import url("pages/auth.css");
+
+/* Vendor themes — restyle third-party widgets. Pages that use them load the
+   library's own CSS from the CDN *before* this file (see form-elements.html). */
+@import url("vendor/tom-select.css");
+@import url("vendor/flatpickr.css");
+@import url("vendor/dropzone.css");
+@import url("vendor/sweetalert2.css");
+@import url("vendor/dragula.css");

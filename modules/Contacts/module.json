@@ -1,0 +1,26 @@
+{
+    "name": "Contacts",
+    "slug": "contacts",
+    "version": "1.0.0",
+    "description": {
+        "en": "Contact points (offices, branches) with address, phone, e-mail, a photo and a point on the map",
+        "ru": "Контакты (офисы, филиалы) с адресом, телефоном, e-mail, фото и точкой на карте",
+        "ky": "Байланыш пункттары (кеңселер, филиалдар): дареги, телефону, e-mail, сүрөтү жана картадагы чекити"
+    },
+    "core": false,
+    "provider": "Modules\\Contacts\\Providers\\ContactsServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-address-book",
+        "order": 45,
+        "items": [
+            { "label": "contacts::admin.menu", "route": "admin.contacts.index", "permission": "contacts.view" }
+        ]
+    },
+    "permissions": ["contacts.view", "contacts.create", "contacts.edit", "contacts.delete"],
+    "widgets": [],
+    "images": {
+        "photo": { "label": "contacts::admin.image_label", "width": 1200, "height": 800, "sizes": { "thumb": [600, 400] } }
+    }
+}

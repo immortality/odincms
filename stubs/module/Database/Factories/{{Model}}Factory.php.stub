@@ -1,0 +1,33 @@
+<?php
+
+namespace {{namespace}}\Database\Factories;
+
+use Illuminate\Database\Eloquent\Factories\Factory;
+use {{namespace}}\Models\{{Model}};
+
+/**
+ * @extends Factory<{{Model}}>
+ */
+class {{Model}}Factory extends Factory
+{
+    protected $model = {{Model}}::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition(): array
+    {
+        return [
+            'title' => [config('cms.default_locale') => fake()->sentence(3)],
+            'is_active' => true,
+            'sort_order' => 0,
+        ];
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(['is_active' => false]);
+    }
+}

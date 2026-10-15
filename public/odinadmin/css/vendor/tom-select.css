@@ -1,0 +1,169 @@
+/* ============================================================
+   TOM SELECT 2.6 — OdinAdmin theme
+   Page loads tom-select.css (base) from the CDN before style.css.
+   Same look as .form-soft and the old Select2 theme: 38px control,
+   caret on the right, teal focus ring, soft chips, floating dropdown.
+   ============================================================ */
+.ts-wrapper { font-size: .82rem; }
+
+/* ---------- Control ---------- */
+.ts-wrapper .ts-control {
+  position: relative;
+  min-height: 38px;
+  padding: 6px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: none;
+  font-size: .82rem;
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s;
+}
+.ts-wrapper:not(.disabled) .ts-control:hover { border-color: var(--border-strong); }
+.ts-wrapper.focus .ts-control,
+.ts-wrapper.dropdown-active .ts-control,
+.ts-wrapper.plugin-dropdown_input.dropdown-active .ts-control,
+.ts-wrapper.plugin-dropdown_input.focus.dropdown-active .ts-control {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.ts-wrapper .ts-control > input {
+  min-width: 4rem;
+  margin: 0;
+  padding: 0;
+  font-size: .82rem;
+  color: var(--text-dark);
+}
+.ts-wrapper .ts-control > input::placeholder,
+.ts-wrapper .items-placeholder { color: var(--text-muted); font-weight: 400; }
+.ts-wrapper.disabled .ts-control { background: var(--neutral-soft); opacity: 1; cursor: not-allowed; }
+
+/* Single: caret on the right */
+.ts-wrapper.single .ts-control { padding-right: 34px; }
+.ts-wrapper.single .ts-control::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  margin-top: -2px;
+  border: 4px solid transparent;
+  border-top: 5px solid var(--text-muted);
+  border-bottom: 0;
+}
+.ts-wrapper.single.dropdown-active .ts-control::after {
+  margin-top: -3px;
+  border-top: 0;
+  border-bottom: 5px solid var(--primary);
+}
+.ts-wrapper .ts-control .item { font-weight: 500; }
+.ts-wrapper.single .ts-control .item { color: var(--text-body); }
+
+/* Multi: chips (× on the left, like the old Select2 look) */
+.ts-wrapper.multi .ts-control,
+.ts-wrapper.multi.has-items .ts-control { padding: 4px 8px; gap: 4px; }
+.ts-wrapper.multi .ts-control > div.item {
+  margin: 0;
+  padding: 2px 8px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: .76rem;
+  font-weight: 600;
+}
+.ts-wrapper.multi .ts-control > div.item.active { background: var(--primary); color: #fff; }
+.ts-wrapper.plugin-remove_button .item .remove,
+.ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
+  order: -1;
+  margin: 0 5px 0 -3px;
+  padding: 0 2px;
+  border: 0;
+  border-radius: 2px;
+  font-size: .9rem;
+  line-height: 1;
+  color: inherit;
+}
+.ts-wrapper.plugin-remove_button .item .remove:hover { background: transparent; color: var(--danger); }
+.ts-wrapper.plugin-remove_button .item.active .remove:hover { color: #fff; opacity: .8; }
+
+/* Clear button (data-clear="true") */
+.ts-wrapper.plugin-clear_button .clear-button {
+  right: 10px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+.ts-wrapper.plugin-clear_button.single .clear-button { right: 30px; }
+.ts-wrapper.plugin-clear_button.has-items .clear-button { opacity: 1; }
+.ts-wrapper.plugin-clear_button .clear-button:hover { color: var(--danger); }
+.ts-wrapper.plugin-clear_button.single .ts-control { padding-right: 52px; }
+.ts-wrapper.plugin-clear_button.multi .ts-control { padding-right: 28px; }
+
+/* ---------- Dropdown ---------- */
+.ts-dropdown {
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: var(--shadow-drop);
+  overflow: hidden;
+  z-index: 1060;
+  font-size: .82rem;
+}
+.ts-dropdown .ts-dropdown-content { max-height: 240px; padding: 4px; }
+.ts-dropdown .option,
+.ts-dropdown .no-results,
+.ts-dropdown .create {
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-body);
+}
+.ts-dropdown .no-results { color: var(--text-muted); }
+.ts-dropdown .option.selected { background: var(--neutral-soft); color: var(--text-dark); font-weight: 600; }
+.ts-dropdown .active,
+.ts-dropdown .active.create { background: var(--primary-soft); color: var(--primary); }
+.ts-dropdown [data-disabled],
+.ts-dropdown .option[aria-disabled="true"] { color: var(--border-strong); opacity: 1; }
+.ts-dropdown .highlight { background: rgba(245, 158, 11, .22); border-radius: 2px; }
+
+.ts-dropdown .optgroup-header {
+  padding: 10px 10px 4px;
+  background: transparent;
+  font-size: .66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+}
+.ts-dropdown .optgroup .option { padding-left: 18px; }
+.ts-dropdown .optgroup::before { display: none; }
+
+/* Search box inside the dropdown (single selects) */
+.ts-wrapper.plugin-dropdown_input .dropdown-input-wrap { padding: 8px 8px 4px; }
+.ts-wrapper.plugin-dropdown_input .dropdown-input {
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: .82rem;
+  outline: 0;
+}
+.ts-wrapper.plugin-dropdown_input .dropdown-input:focus { border-color: var(--primary); }
+
+/* ---------- Validation: the hidden <select> keeps :invalid ---------- */
+.was-validated select:invalid ~ .ts-wrapper .ts-control,
+select.is-invalid ~ .ts-wrapper .ts-control { border-color: var(--danger); }
+.was-validated select:valid ~ .ts-wrapper .ts-control,
+select.is-valid ~ .ts-wrapper .ts-control { border-color: var(--success); }
+
+/* ---------- Option templates (js/forms.js): avatar and icon ---------- */
+.ts-media { display: inline-flex; align-items: center; gap: 8px; vertical-align: middle; }
+.ts-media .av-sm { line-height: 1; }
+.ts-media .ts-icon { width: 16px; text-align: center; color: var(--text-muted); }
+.ts-dropdown .active .ts-media .ts-icon { color: var(--primary); }

@@ -1,0 +1,209 @@
+/* ============================================================
+   AUTH PAGES — split layout (reference page: login.html)
+   Desktop (≥ 992px): form panel 40% | image panel 60%.
+   Below 992px the image panel is hidden and the form fills the screen.
+
+   <body class="auth-page">
+     <main class="auth">
+       <section class="auth-panel">  .auth-brand / .auth-body (form) / .auth-footer  </section>
+       <aside class="auth-media" style="--auth-image: url(…)">  .auth-media-content  </aside>
+     </main>
+   </body>
+   ============================================================ */
+body.auth-page { background: var(--bg-card); }
+.auth-form a,
+.auth-note a { color: var(--primary-hover); }
+.auth-form a:hover,
+.auth-note a:hover { color: var(--primary); }
+
+.auth {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+/* ---------- Form panel ---------- */
+.auth-panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 28px 20px 20px;
+  background: var(--bg-card);
+}
+
+.auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -.02em;
+  color: var(--text-dark);
+  text-decoration: none;
+}
+.auth-brand:hover { color: var(--text-dark); }
+.auth-brand .logo {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  box-shadow: var(--shadow-teal);
+}
+.auth-brand .brand-dot { color: var(--primary); }
+
+.auth-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 40px 0;
+}
+.auth-title { margin: 0 0 6px; font-size: 1.5rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-dark); }
+.auth-desc { margin: 0 0 28px; font-size: .88rem; color: var(--text-muted); }
+.auth-form .form-group { margin-bottom: 18px; }
+.auth-form .form-label-row .form-link { font-size: .78rem; font-weight: 600; text-decoration: none; }
+.auth-note { margin-top: 24px; font-size: .82rem; color: var(--text-muted); text-align: center; }
+.auth-note a { font-weight: 600; text-decoration: none; }
+
+/* "or" divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 24px 0;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.auth-divider::before,
+.auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.auth-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 16px;
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+.auth-footer nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; }
+.auth-footer a { color: var(--text-muted); text-decoration: none; }
+.auth-footer a:hover { color: var(--primary); }
+.auth-lang {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-body);
+}
+.auth-lang:hover { background: var(--neutral-soft); }
+.auth-lang .lang-code { width: 24px; height: 18px; display: inline-grid; place-items: center; border-radius: var(--radius-xs); background: var(--neutral-soft); font-size: .62rem; font-weight: 700; }
+
+/* ---------- Image panel ---------- */
+.auth-media {
+  position: relative;
+  display: none;
+  overflow: hidden;
+  background: var(--sidebar-bg) var(--auth-image) center / cover no-repeat;
+  color: #fff;
+}
+.auth-media::before {                 /* darkening for readable text */
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 19, 43, .15) 0%, rgba(11, 19, 43, .35) 45%, rgba(11, 19, 43, .88) 100%);
+}
+.auth-media-content {
+  position: absolute;
+  left: 56px;
+  right: 56px;
+  bottom: 56px;
+  max-width: 560px;
+}
+.auth-media-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: rgba(255, 255, 255, .14);
+  backdrop-filter: blur(6px);
+  font-size: .74rem;
+  font-weight: 600;
+}
+.auth-media-title { margin: 0 0 12px; font-size: 2rem; font-weight: 700; line-height: 1.25; letter-spacing: -.02em; color: #fff; }
+.auth-media-text { margin: 0; font-size: .95rem; line-height: 1.6; color: rgba(255, 255, 255, .78); }
+.auth-media-points { display: flex; flex-wrap: wrap; gap: 10px 24px; margin: 24px 0 0; padding: 0; list-style: none; font-size: .82rem; color: rgba(255, 255, 255, .85); }
+.auth-media-points i { margin-right: 8px; color: var(--primary); }
+.auth-media-credit { position: absolute; top: 24px; right: 28px; font-size: .7rem; color: rgba(255, 255, 255, .55); }
+
+@media (min-width: 576px) {
+  .auth-panel { padding: 36px 40px 24px; }
+}
+@media (min-width: 992px) {
+  .auth { grid-template-columns: 2fr 3fr; }         /* 40% | 60% */
+  .auth-panel { padding: 40px 56px 28px; }
+  .auth-media { display: block; }
+}
+
+/* ============================================================
+   Centered variant (login2.html): logo on top, form in a card, links below
+   <body class="auth-page auth-page-soft">
+     <main class="auth-center">
+       .auth-brand  →  .auth-main > .auth-card (form)  →  .auth-footer
+   ============================================================ */
+body.auth-page.auth-page-soft { background: var(--bg-body); }
+.auth-center {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 48px 16px 24px;
+}
+.auth-main {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+}
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px 36px 32px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
+}
+.auth-card .auth-title,
+.auth-card .auth-desc { text-align: center; }
+.auth-center .auth-note { max-width: 420px; }
+.auth-center .auth-footer { justify-content: center; text-align: center; }
+
+@media (max-width: 575.98px) {
+  .auth-center { padding-top: 32px; }
+  .auth-card { padding: 28px 20px 24px; }
+}

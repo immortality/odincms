@@ -1,0 +1,441 @@
+/* ============================================================
+   FORMS — soft inputs, selects, search with icon, checkbox, switch
+   Use on top of Bootstrap: <input class="form-control form-soft">,
+   <select class="form-select form-soft">.
+   Reference page: form-elements.html
+   ============================================================ */
+.form-soft {
+  height: 38px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--text-body);
+  background-color: #fff;
+  box-shadow: none;
+  transition: border-color .15s, box-shadow .15s;
+}
+.form-soft::placeholder { color: var(--text-muted); font-weight: 400; }
+.form-soft:hover { border-color: var(--border-strong); }
+.form-soft:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+  color: var(--text-dark);
+}
+.form-soft.form-sm { height: 32px; font-size: .78rem; }
+.form-soft.form-lg { height: 46px; font-size: .9rem; padding-left: 14px; padding-right: 14px; }
+select.form-soft { padding-right: 32px; cursor: pointer; }
+textarea.form-soft { height: auto; min-height: 110px; padding: 10px 12px; resize: vertical; line-height: 1.5; }
+.form-soft:disabled,
+.form-soft[readonly] {
+  background-color: var(--neutral-soft);
+  color: var(--text-muted);
+  border-color: var(--border);
+  cursor: not-allowed;
+}
+/* flatpickr inputs are readonly on purpose (the calendar is the editor) — keep them white */
+.form-soft.flatpickr-input[readonly],
+.form-soft.fp-alt[readonly] { background-color: #fff; color: var(--text-body); cursor: pointer; }
+
+/* Validation (Bootstrap .is-valid / .is-invalid and .was-validated) */
+.form-soft.is-invalid,
+.was-validated .form-soft:invalid { border-color: var(--danger); }
+.form-soft.is-invalid:focus,
+.was-validated .form-soft:invalid:focus { box-shadow: 0 0 0 3px var(--danger-soft); }
+.form-soft.is-valid,
+.was-validated .form-soft:valid { border-color: var(--success); }
+.form-soft.is-valid:focus,
+.was-validated .form-soft:valid:focus { box-shadow: 0 0 0 3px var(--success-soft); }
+.invalid-feedback,
+.valid-feedback { font-size: .74rem; font-weight: 500; margin-top: 5px; }
+
+/* Labels, help text, counters */
+.form-label {
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+.form-label .req { color: var(--danger); margin-left: 2px; }
+.form-label-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.form-text { font-size: .74rem; color: var(--text-muted); margin-top: 5px; }
+.char-count { font-size: .72rem; font-weight: 500; color: var(--text-muted); white-space: nowrap; }
+.char-count.near { color: var(--warning); }
+
+/* Group headings inside a form */
+.form-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 14px;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-muted);
+}
+.form-section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.form-section + .form-section { margin-top: 28px; }
+
+/* Buttons row at the end of a form */
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+/* Input group addons: <span class="input-group-text addon-soft">https://</span> */
+.input-group .addon-soft {
+  background: #F8FAFC;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: .8rem;
+  font-weight: 500;
+}
+.input-group > .btn-soft { border-radius: var(--radius-md); }
+.input-group .form-soft:focus { z-index: 3; }
+
+/* Input with a leading icon:
+   <div class="input-icon"><i class="fas fa-search"></i><input class="form-control form-soft"></div> */
+.input-icon { position: relative; }
+.input-icon > i {
+  position: absolute;
+  left: 12px;
+  top: 19px;                 /* half of the 38px input, not of the wrapper (error text below) */
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: .8rem;
+  pointer-events: none;
+  z-index: 4;
+}
+.input-icon > .form-soft { padding-left: 34px; }
+/* Icon on the right: .input-icon.icon-end   Bigger icon: .icon-lg (for .form-lg inputs) */
+.input-icon.icon-end > i { left: auto; right: 16px; }
+.input-icon.icon-end > .form-soft { padding-left: 14px; padding-right: 44px; }
+.input-icon.icon-lg > i { font-size: 1rem; }
+/* Taller inputs: keep the icon centred on the input */
+.input-icon:has(> .form-lg) > i,
+.input-action:has(> .form-lg) > .input-action-btn { top: 23px; }
+.input-icon:has(> .form-sm) > i,
+.input-action:has(> .form-sm) > .input-action-btn { top: 16px; }
+/* Bootstrap's validation icon would sit under the right-hand icon: hide it here */
+.input-icon.icon-end > .form-soft.is-invalid,
+.was-validated .input-icon.icon-end > .form-soft:invalid,
+.input-icon.icon-end > .form-soft.is-valid,
+.was-validated .input-icon.icon-end > .form-soft:valid { background-image: none; padding-right: 44px; }
+/* Valid / invalid colour the icon too, so the state is still visible */
+.was-validated .input-icon > .form-soft:invalid ~ i,
+.input-icon > .form-soft.is-invalid ~ i { color: var(--danger); }
+
+/* Input with a button inside on the right (show password, clear, copy):
+   <div class="input-action"><input class="form-control form-soft"><button type="button" class="input-action-btn">…</button></div> */
+.input-action { position: relative; }
+.input-action > .form-soft { padding-right: 44px; }
+.input-action-btn {
+  position: absolute;
+  top: 19px;
+  right: 6px;
+  width: 32px;
+  height: 32px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  z-index: 4;
+}
+.input-action-btn:hover { color: var(--primary); background: var(--primary-soft); }
+.input-action.icon-lg > .input-action-btn { right: 8px; font-size: 1rem; }  /* lines up with .icon-end.icon-lg */
+.input-action-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 0; }
+/* Bootstrap's validation icon would sit under the button: hide it here */
+.input-action > .form-soft.is-invalid,
+.was-validated .input-action > .form-soft:invalid,
+.input-action > .form-soft.is-valid,
+.was-validated .input-action > .form-soft:valid { background-image: none; padding-right: 44px; }
+
+/* ------------------------------------------------------------
+   CHECKBOX, RADIO, SWITCH — add .check-soft to .form-check-input
+   Layout: <label class="check-row"><input class="form-check-input check-soft" type="checkbox"> Text</label>
+   ------------------------------------------------------------ */
+.check-soft.form-check-input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  border-color: var(--border-strong);
+  cursor: pointer;
+  box-shadow: none;
+}
+.form-switch .check-soft.form-check-input { width: 32px; height: 18px; }
+.form-switch .check-soft.form-check-input.switch-lg { width: 42px; height: 24px; }
+.check-soft.form-check-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.check-soft.form-check-input:checked,
+.check-soft.form-check-input:indeterminate {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.form-switch .check-soft.form-check-input:checked { background-color: var(--success); border-color: var(--success); }
+.form-switch .check-soft.form-check-input.switch-brand:checked { background-color: var(--primary); border-color: var(--primary); }
+.check-soft.form-check-input:disabled { opacity: .45; cursor: not-allowed; }
+.was-validated .check-soft.form-check-input:invalid { border-color: var(--danger); }
+
+.check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+  font-size: .84rem;
+  color: var(--text-body);
+  cursor: pointer;
+}
+.check-row > .form-check-input { margin-top: 2px; flex-shrink: 0; }
+.check-row.form-switch { padding-left: 0; }
+.check-row small { display: block; font-size: .74rem; color: var(--text-muted); margin-top: 1px; }
+.check-row:has(.form-check-input:disabled) { cursor: not-allowed; color: var(--text-muted); }
+.check-inline { display: flex; flex-wrap: wrap; gap: 10px 24px; }
+.check-inline .check-row { margin-bottom: 0; }
+
+/* Settings row: title + description left, switch right */
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.switch-row:first-child { padding-top: 0; }
+.switch-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.switch-row .sr-title { font-size: .84rem; font-weight: 600; color: var(--text-dark); }
+.switch-row .sr-desc { font-size: .74rem; color: var(--text-muted); }
+.switch-row .form-switch { padding-left: 0; margin: 0; flex-shrink: 0; }
+
+/* Shared: hide a native radio/checkbox but keep it focusable */
+.seg-input,
+.option-input,
+.chip-input,
+.swatch-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------
+   RADIO AS A SWITCH — segmented control
+   <div class="seg-control" role="radiogroup">
+     <input class="seg-input" type="radio" name="x" id="x1" checked><label class="seg-btn" for="x1">One</label>
+     …
+   </div>
+   Variants: .seg-block (full width), .seg-solid (filled active),
+   per-option colour on the label: .is-success / .is-danger / .is-warning
+   ------------------------------------------------------------ */
+.seg-control {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  background: var(--neutral-soft);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  position: relative;
+}
+.seg-control.seg-block { display: flex; width: 100%; }
+.seg-control.seg-block .seg-btn { flex: 1 1 0; }
+.seg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: all .15s;
+}
+.seg-btn:hover { color: var(--text-dark); }
+.seg-input:checked + .seg-btn {
+  background: #fff;
+  color: var(--primary);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, .12);
+}
+.seg-input:focus-visible + .seg-btn { outline: 2px solid var(--primary); outline-offset: 1px; }
+.seg-input:disabled + .seg-btn { opacity: .45; cursor: not-allowed; }
+.seg-control.seg-solid .seg-input:checked + .seg-btn { background: var(--primary); color: #fff; }
+.seg-input:checked + .seg-btn.is-success { color: #059669; }
+.seg-input:checked + .seg-btn.is-danger  { color: #DC2626; }
+.seg-input:checked + .seg-btn.is-warning { color: #B45309; }
+.seg-control.seg-solid .seg-input:checked + .seg-btn.is-success { background: var(--success); color: #fff; }
+.seg-control.seg-solid .seg-input:checked + .seg-btn.is-danger  { background: var(--danger);  color: #fff; }
+.seg-control.seg-solid .seg-input:checked + .seg-btn.is-warning { background: var(--warning); color: #fff; }
+.seg-control.seg-sm .seg-btn { padding: 4px 10px; font-size: .74rem; }
+
+/* ------------------------------------------------------------
+   OPTION CARDS — big selectable radio or checkbox
+   <input class="option-input" type="radio" id="o1" name="o"><label class="option-card" for="o1">…</label>
+   ------------------------------------------------------------ */
+.option-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 12px;
+}
+.option-cards.stacked { grid-template-columns: 1fr; gap: 8px; }
+.option-card {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 40px 14px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  cursor: pointer;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+}
+.option-card:hover { border-color: var(--border-strong); }
+.option-card .oc-ico {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: var(--neutral-soft);
+  color: var(--text-muted);
+  font-size: .9rem;
+  transition: all .15s;
+}
+.option-card .oc-title { display: block; font-size: .84rem; font-weight: 600; color: var(--text-dark); }
+.option-card .oc-desc { display: block; font-size: .74rem; color: var(--text-muted); margin-top: 2px; line-height: 1.4; }
+.option-card .oc-price { display: block; margin-top: 8px; font-size: 1.05rem; font-weight: 700; color: var(--text-dark); }
+.option-card .oc-price small { font-size: .72rem; font-weight: 500; color: var(--text-muted); }
+.option-card::after {               /* indicator: circle for radio, square for checkbox */
+  content: '';
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 50%;
+  background: #fff center / 10px no-repeat;
+  transition: all .15s;
+}
+.option-input[type="checkbox"] + .option-card::after { border-radius: var(--radius-xs); }
+.option-input:checked + .option-card {
+  border-color: var(--primary);
+  background: rgba(0, 180, 216, .03);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.option-input:checked + .option-card .oc-ico { background: var(--primary-soft); color: var(--primary); }
+.option-input:checked + .option-card::after {
+  border-color: var(--primary);
+  background-color: var(--primary);
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e");
+}
+.option-input:focus-visible + .option-card { outline: 2px solid var(--primary); outline-offset: 2px; }
+.option-input:disabled + .option-card { opacity: .5; cursor: not-allowed; }
+
+/* ------------------------------------------------------------
+   CHECK CHIPS — pill checkboxes (tags, weekdays, interests)
+   <input class="chip-input" type="checkbox" id="c1"><label class="chip" for="c1">Mon</label>
+   ------------------------------------------------------------ */
+.check-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: #fff;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-body);
+  cursor: pointer;
+  user-select: none;
+  transition: all .15s;
+}
+.chip::before {
+  content: '\f067';                 /* fa-plus */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: .62rem;
+  color: var(--text-muted);
+}
+.chip:hover { border-color: var(--border-strong); }
+.chip-input:checked + .chip {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.chip-input:checked + .chip::before { content: '\f00c'; color: var(--primary); } /* fa-check */
+.chip-input:focus-visible + .chip { outline: 2px solid var(--primary); outline-offset: 2px; }
+.chip-input:disabled + .chip { opacity: .45; cursor: not-allowed; }
+
+/* ------------------------------------------------------------
+   COLOUR SWATCHES — radio
+   <input class="swatch-input" type="radio" id="s1" name="s"><label class="swatch" for="s1" style="--swatch:#00B4D8" title="Teal"></label>
+   ------------------------------------------------------------ */
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.swatch {
+  width: 28px;
+  height: 28px;
+  margin: 0;
+  border-radius: 50%;
+  background: var(--swatch);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, .1);
+  transition: box-shadow .15s, transform .15s;
+}
+.swatch:hover { transform: scale(1.08); }
+.swatch-input:checked + .swatch { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--swatch); }
+.swatch-input:focus-visible + .swatch { outline: 2px solid var(--text-dark); outline-offset: 4px; }
+
+/* Form messages use the alert component (components/alerts.css):
+   <div class="alert-soft success"><i class="fas fa-check-circle"></i> Saved.</div> */
+
+/* Demo blocks on the reference page (label above a group of controls) */
+.demo-block + .demo-block { margin-top: 22px; }
+.demo-label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: .74rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+@media (max-width: 575.98px) {
+  .form-actions > * { flex: 1 1 auto; justify-content: center; }
+  .seg-control:not(.seg-block) { max-width: 100%; }
+}
+
+/* Image field: preview of the current / chosen picture next to the file input */
+.file-preview {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--neutral-soft);
+}

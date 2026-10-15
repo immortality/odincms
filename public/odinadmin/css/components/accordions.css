@@ -1,0 +1,109 @@
+/* ============================================================
+   ACCORDIONS — reference page: accordions.html
+   Behaviour: Bootstrap collapse (no extra JS). data-bs-parent="#id" on the
+   panels = one open at a time; leave it out = several can stay open.
+
+   Version 1 · bordered (default):  .acc
+   Version 2 · borderless:          .acc.acc-flush   (+/− icon on the right)
+                                    .acc.acc-flush.acc-icon-left (+/− on the left)
+
+   <div class="acc" id="faq">
+     <div class="acc-item">
+       <button class="acc-head" type="button" data-bs-toggle="collapse" data-bs-target="#faq-1"
+               aria-expanded="true" aria-controls="faq-1">
+         <span class="acc-title">Question</span><span class="acc-icon" aria-hidden="true"></span>
+       </button>
+       <div id="faq-1" class="acc-body collapse show" data-bs-parent="#faq">
+         <div class="acc-inner"><p>Answer</p></div>
+       </div>
+     </div>
+   </div>
+   ============================================================ */
+
+/* ---------- Version 1 · bordered ---------- */
+.acc {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+.acc-item:not(:last-child) { border-bottom: 1px solid var(--border); }
+
+.acc-head {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 16px 56px 16px 24px;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.acc-head:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+
+.acc-title {
+  display: block;
+  font-size: .92rem;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--text-body);
+  transition: color .15s;
+}
+.acc-head:hover .acc-title,
+.acc-head[aria-expanded="true"] .acc-title { color: var(--text-dark); }
+
+.acc-icon {
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  transform: translateY(-50%);
+  color: var(--text-dark);
+  font-size: .78rem;
+}
+.acc-icon::before {
+  content: '\f078';                     /* fa-chevron-down */
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  transition: transform .3s;
+}
+.acc-head[aria-expanded="true"] .acc-icon::before { transform: rotate(180deg); }
+
+.acc-inner {
+  padding: 16px 24px 20px;
+  border-top: 1px solid var(--border);
+  font-size: .85rem;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+.acc-inner p { margin-bottom: 10px; }
+.acc-inner > :last-child { margin-bottom: 0; }
+
+/* ---------- Version 2 · borderless ---------- */
+.acc.acc-flush { border: 0; border-radius: 0; background: transparent; }
+.acc-flush .acc-item { border: 0; }
+.acc-flush .acc-head { padding: 10px 40px 10px 0; }
+.acc-flush .acc-title { font-size: 1rem; }
+.acc-flush .acc-head[aria-expanded="true"] .acc-title { color: var(--primary); }
+.acc-flush .acc-icon { right: 0; }
+.acc-flush .acc-icon::before { content: '\2b'; }                       /* fa-plus */
+.acc-flush .acc-head[aria-expanded="true"] .acc-icon::before {
+  content: '\f068';                                                    /* fa-minus */
+  transform: none;
+}
+.acc-flush .acc-inner { padding: 4px 40px 14px 0; border-top: 0; }
+
+/* Icon on the left */
+.acc-flush.acc-icon-left .acc-head { padding: 10px 0 10px 36px; }
+.acc-flush.acc-icon-left .acc-icon { left: 0; right: auto; }
+.acc-flush.acc-icon-left .acc-inner { padding: 4px 0 14px 36px; }
+
+@media (max-width: 767.98px) {
+  .acc-head { padding: 14px 44px 14px 16px; }
+  .acc-icon { right: 16px; }
+  .acc-inner { padding: 14px 16px 16px; }
+}

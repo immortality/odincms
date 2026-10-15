@@ -1,0 +1,23 @@
+{
+    "name": "Groups",
+    "slug": "groups",
+    "version": "1.0.0",
+    "description": {
+        "en": "User groups (roles)",
+        "ru": "Группы пользователей (роли)",
+        "ky": "Колдонуучу топтору (ролдор)"
+    },
+    "core": true,
+    "provider": "Modules\\Groups\\Providers\\GroupsServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "users",
+        "icon": "fas fa-users-cog",
+        "order": 20,
+        "items": [
+            { "label": "groups::admin.menu", "route": "admin.groups.index", "permission": "groups.view" }
+        ]
+    },
+    "permissions": ["groups.view", "groups.create", "groups.edit", "groups.delete"],
+    "widgets": []
+}

@@ -1,0 +1,23 @@
+{
+    "name": "Permissions",
+    "slug": "permissions",
+    "version": "1.0.0",
+    "description": {
+        "en": "What each group may do",
+        "ru": "Что разрешено каждой группе",
+        "ky": "Ар бир топко эмнеге уруксат берилген"
+    },
+    "core": true,
+    "provider": "Modules\\Permissions\\Providers\\PermissionsServiceProvider",
+    "requires": ["groups"],
+    "admin_menu": {
+        "group": "users",
+        "icon": "fas fa-shield-alt",
+        "order": 30,
+        "items": [
+            { "label": "permissions::admin.menu", "route": "admin.permissions.index", "permission": "permissions.view" }
+        ]
+    },
+    "permissions": ["permissions.view", "permissions.edit"],
+    "widgets": []
+}

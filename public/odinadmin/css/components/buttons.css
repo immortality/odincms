@@ -1,0 +1,138 @@
+/* ============================================================
+   BUTTONS — soft, ghost, row action, filter tabs
+   ============================================================ */
+.btn-soft {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 9px 16px;
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--text-body);
+  background: #fff;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all .15s;
+}
+.btn-soft:hover {
+  background: var(--primary-soft);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn-ghost {
+  background: transparent;
+  border: 0;
+  color: var(--primary);
+  font-weight: 600;
+  font-size: .8rem;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+}
+.btn-ghost:hover { background: var(--primary-soft); color: var(--primary); }
+
+/* "…" button on cards and table rows */
+.row-action {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all .15s;
+}
+.row-action:hover,
+.row-action[aria-expanded="true"] {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* Pill filter tabs */
+.filter-tabs { display: flex; gap: 4px; }
+.filter-tab {
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all .15s;
+}
+.filter-tab:hover { color: var(--text-dark); background: #F1F5F9; }
+.filter-tab.active {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+
+/* Solid brand button (primary page action) */
+.btn-brand {
+  border: 1px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 9px 16px;
+  font-size: .82rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all .15s;
+}
+.btn-brand:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  color: #fff;
+  box-shadow: var(--shadow-teal);
+}
+
+/* Destructive main action (delete, remove): .btn-brand.danger */
+.btn-brand.danger { background: var(--danger-hover); border-color: var(--danger-hover); }
+.btn-brand.danger:hover { background: #B91C1C; border-color: #B91C1C; box-shadow: 0 6px 16px -4px rgba(220, 38, 38, .45); }
+
+/* Smaller variant for toolbars: .btn-soft.btn-sm / .btn-brand.btn-sm */
+.btn-soft.btn-sm,
+.btn-brand.btn-sm { padding: 6px 12px; font-size: .78rem; }
+/* Larger / full-width variants (auth forms, primary page actions) */
+.btn-soft.btn-lg,
+.btn-brand.btn-lg { padding: 12px 20px; font-size: .9rem; }
+.btn-soft.btn-block,
+.btn-brand.btn-block { width: 100%; justify-content: center; }
+.btn-brand:disabled,
+.btn-soft:disabled { opacity: .65; cursor: not-allowed; box-shadow: none; }
+.btn-soft.danger:hover {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+/* Square icon button — table row actions, toolbars.
+   Colour on hover: default teal, .danger red, .success green. */
+.icon-btn {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  display: inline-grid;
+  place-items: center;
+  font-size: .85rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .15s;
+}
+.icon-btn:hover,
+.icon-btn[aria-expanded="true"] { background: var(--primary-soft); color: var(--primary); }
+.icon-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }
+.icon-btn.success:hover { background: var(--success-soft); color: var(--success); }
+.icon-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }

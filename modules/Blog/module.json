@@ -1,0 +1,26 @@
+{
+    "name": "Blog",
+    "slug": "blog",
+    "version": "1.0.0",
+    "description": {
+        "en": "Posts with categories, a cover image, SEO fields and a public blog",
+        "ru": "Записи с категориями, обложкой, SEO-полями и публичным блогом",
+        "ky": "Категориялары, мукабасы, SEO талаалары жана ачык блогу бар жазуулар"
+    },
+    "core": true,
+    "provider": "Modules\\Blog\\Providers\\BlogServiceProvider",
+    "requires": ["categories"],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-newspaper",
+        "order": 10,
+        "items": [
+            { "label": "blog::admin.menu", "route": "admin.blog.index", "permission": "blog.view" }
+        ]
+    },
+    "permissions": ["blog.view", "blog.create", "blog.edit", "blog.delete", "blog.publish"],
+    "widgets": ["Modules\\Blog\\Widgets\\LatestPostsWidget"],
+    "images": {
+        "cover": { "label": "blog::admin.image_label", "width": 1200, "height": 630, "sizes": { "thumb": [600, 315] } }
+    }
+}

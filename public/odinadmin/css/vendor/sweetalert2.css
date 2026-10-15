@@ -1,0 +1,90 @@
+/* ============================================================
+   SWEETALERT2 11 — OdinAdmin theme
+   Page loads sweetalert2.min.css from the CDN before style.css, and the
+   plain sweetalert2.min.js (NOT the ".all" build, which injects its own CSS
+   after ours). Buttons use OdinAdmin classes (buttonsStyling: false in js/modals.js).
+   ============================================================ */
+.swal2-container.swal2-backdrop-show,
+.swal2-container.swal2-noanimation { background: rgba(15, 23, 42, .45); }
+
+.swal2-popup {
+  width: 440px;
+  max-width: calc(100vw - 32px);
+  padding: 36px 32px 28px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 0 1px rgba(15, 23, 42, .2), 0 10px 30px -4px rgba(15, 23, 42, .22);
+  font-family: inherit;
+}
+.swal2-title {
+  padding: 0;
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.swal2-html-container {
+  margin: 0;
+  padding: 0;
+  font-size: .88rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.swal2-html-container strong { color: var(--text-dark); }
+.swal2-footer {
+  margin: 24px -32px -28px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  background: #F8FAFC;
+  font-size: .78rem;
+  color: var(--text-muted);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+}
+
+/* Icons in the palette colours */
+.swal2-icon { margin: 0 auto 20px; }
+.swal2-icon.swal2-warning  { border-color: var(--warning); color: var(--warning); }
+.swal2-icon.swal2-info     { border-color: var(--info);    color: var(--info); }
+.swal2-icon.swal2-question { border-color: var(--border-strong); color: var(--text-muted); }
+.swal2-icon.swal2-error    { border-color: var(--danger);  color: var(--danger); }
+.swal2-icon.swal2-error [class^="swal2-x-mark-line"] { background-color: var(--danger); }
+.swal2-icon.swal2-success  { border-color: var(--success); color: var(--success); }
+.swal2-icon.swal2-success [class^="swal2-success-line"] { background-color: var(--success); }
+.swal2-icon.swal2-success .swal2-success-ring { border-color: color-mix(in srgb, var(--success) 30%, transparent); }
+
+/* Buttons (OdinAdmin classes come from customClass) */
+.swal2-actions { gap: 10px; margin: 24px 0 0; }
+.swal2-actions > button { margin: 0; }
+.swal2-actions > button:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.swal2-loader { border-color: var(--primary) transparent var(--primary) transparent; }
+.swal2-close { color: var(--text-muted); font-size: 1.6rem; box-shadow: none !important; }
+.swal2-close:hover { color: var(--text-dark); }
+.swal2-timer-progress-bar { background: var(--primary); height: 3px; }
+
+/* Inputs look like .form-soft */
+.swal2-input,
+.swal2-textarea,
+.swal2-select {
+  width: 100%;
+  margin: 18px 0 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: none;
+  font-size: .85rem;
+  color: var(--text-dark);
+}
+.swal2-input { height: 40px; padding: 0 12px; }
+.swal2-input:focus,
+.swal2-textarea:focus,
+.swal2-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-soft);
+}
+.swal2-input-label { margin: 18px 0 0; font-size: .8rem; font-weight: 600; color: var(--text-dark); }
+.swal2-validation-message {
+  margin: 12px 0 0;
+  border-radius: var(--radius-sm);
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  font-size: .8rem;
+}
+.swal2-validation-message::before { background-color: var(--danger); }

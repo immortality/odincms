@@ -1,0 +1,23 @@
+{
+    "name": "Modules",
+    "slug": "modules",
+    "version": "1.0.0",
+    "description": {
+        "en": "Install, enable, disable, upgrade and uninstall modules",
+        "ru": "Установка, включение, отключение, обновление и удаление модулей",
+        "ky": "Модулдарды орнотуу, күйгүзүү, өчүрүү, жаңылоо жана жок кылуу"
+    },
+    "core": true,
+    "provider": "Modules\\Modules\\Providers\\ModulesServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "system",
+        "icon": "fas fa-cubes",
+        "order": 10,
+        "items": [
+            { "label": "modules::admin.menu", "route": "admin.modules.index", "permission": "modules.view" }
+        ]
+    },
+    "permissions": ["modules.view", "modules.manage", "modules.uninstall"],
+    "widgets": []
+}

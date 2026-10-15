@@ -1,0 +1,49 @@
+<?php
+
+namespace {{namespace}}\Models;
+
+use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Table;
+use Illuminate\Database\Eloquent\Attributes\UseFactory;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
+use {{namespace}}\Database\Factories\{{Model}}Factory;
+use {{namespace}}\Policies\{{Model}}Policy;
+use Spatie\Translatable\Attributes\Translatable;
+use Spatie\Translatable\HasTranslations;
+
+/**
+ * @property int $id
+ * @property string $title Translated to the current locale; all locales via getTranslations('title')
+ * @property bool $is_active
+ * @property int $sort_order
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * @property Carbon|null $deleted_at
+ */
+#[Table('{{table}}')]
+#[Fillable(['title', 'is_active', 'sort_order'])]
+#[Translatable('title')]
+#[UseFactory({{Model}}Factory::class)]
+#[UsePolicy({{Model}}Policy::class)]
+class {{Model}} extends Model
+{
+    /** @use HasFactory<{{Model}}Factory> */
+    use HasFactory, HasTranslations, SoftDeletes;
+
+    /**
+     * Get the attributes that should be cast.
+     *
+     * @return array<string, string>
+     */
+    protected function casts(): array
+    {
+        return [
+            'is_active' => 'boolean',
+            'sort_order' => 'integer',
+        ];
+    }
+}

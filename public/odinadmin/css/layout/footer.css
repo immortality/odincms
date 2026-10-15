@@ -1,0 +1,50 @@
+/* ============================================================
+   FOOTER BAR
+   ============================================================ */
+.footerbar {
+  height: var(--footerbar-h);
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 28px;
+  font-size: .8rem;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.footerbar .fb-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.footerbar .fb-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.footerbar .fb-link {
+  color: var(--text-body);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .15s;
+}
+.footerbar .fb-link:hover { color: var(--primary); }
+.footerbar .fb-brand {
+  color: var(--text-dark);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.footerbar .fb-brand i { color: var(--primary); font-size: .85rem; }
+
+@media (max-width: 991.98px) {
+  .footerbar { padding: 0 16px; }
+}
+
+@media (max-width: 575.98px) {
+  .footerbar .fb-right { gap: 12px; }
+  .footerbar .fb-hide-sm { display: none; }
+}

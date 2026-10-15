@@ -1,0 +1,26 @@
+{
+    "name": "Services",
+    "slug": "services",
+    "version": "1.0.0",
+    "description": {
+        "en": "Services with a photo, detail text and SEO fields, and public service pages",
+        "ru": "Услуги с фото, подробным описанием и SEO-полями, и публичные страницы услуг",
+        "ky": "Сүрөтү, толук сүрөттөмөсү жана SEO талаалары бар кызматтар, жана ачык кызмат барактары"
+    },
+    "core": false,
+    "provider": "Modules\\Services\\Providers\\ServicesServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-concierge-bell",
+        "order": 40,
+        "items": [
+            { "label": "services::admin.menu", "route": "admin.services.index", "permission": "services.view" }
+        ]
+    },
+    "permissions": ["services.view", "services.create", "services.edit", "services.delete"],
+    "widgets": ["Modules\\Services\\Widgets\\ServicesWidget"],
+    "images": {
+        "photo": { "label": "services::admin.image_label", "width": 1200, "height": 800, "sizes": { "thumb": [600, 400] } }
+    }
+}

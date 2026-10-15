@@ -1,0 +1,29 @@
+{
+    "name": "Banners",
+    "slug": "banners",
+    "version": "1.0.0",
+    "description": {
+        "en": "Banners for the hero section (title, text, button, image, badge, chips), shown by the Hero banner and Banner slider widgets",
+        "ru": "Баннеры для главного блока (заголовок, текст, кнопка, изображение, метка, плашки), выводятся виджетами «Главный баннер» и «Слайдер баннеров»",
+        "ky": "Башкы блок үчүн баннерлер (аталыш, текст, баскыч, сүрөт, белги, плашкалар), «Башкы баннер» жана «Баннер слайдери» виджеттери менен көрсөтүлөт"
+    },
+    "core": false,
+    "provider": "Modules\\Banners\\Providers\\BannersServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-images",
+        "order": 50,
+        "items": [
+            { "label": "banners::admin.menu", "route": "admin.banners.index", "permission": "banners.view" }
+        ]
+    },
+    "permissions": ["banners.view", "banners.create", "banners.edit", "banners.delete"],
+    "widgets": [
+        "Modules\\Banners\\Widgets\\HeroWidget",
+        "Modules\\Banners\\Widgets\\SliderWidget"
+    ],
+    "images": {
+        "image": { "label": "banners::admin.image_label", "width": 1200, "height": 1240, "sizes": { "thumb": [300, 310] } }
+    }
+}

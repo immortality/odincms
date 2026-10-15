@@ -1,0 +1,63 @@
+@php
+    $title = $item->exists ? __('{{slug}}::admin.edit') : __('{{slug}}::admin.new');
+@endphp
+
+<x-admin-layout::app
+    :title="$title"
+    :breadcrumbs="[
+        __('Dashboard') => url(config('cms.admin_prefix')),
+        __('{{slug}}::admin.title') => route('admin.{{slug}}.index'),
+        $title => null,
+    ]">
+
+    {{-- Back, Delete and Save in the page head, above the form. --}}
+    <x-slot:actions>
+        <li>
+            <a href="{{ route('admin.{{slug}}.index') }}" class="btn btn-white btn-outline-light">
+                <em class="icon ni ni-arrow-left"></em><span>{{ __('{{slug}}::admin.back') }}</span>
+            </a>
+        </li>
+        @if ($item->exists)
+            @can('delete', $item)
+                {{-- Its own small form, outside the edit form below (forms cannot be nested). --}}
+                <li><x-admin.confirm-delete :action="route('admin.{{slug}}.destroy', $item)" class="btn-dim btn-outline-danger" /></li>
+            @endcan
+        @endif
+        <li>
+            {{-- Submits the form below through its id. --}}
+            <button type="submit" form="{{slug}}-form" class="btn btn-primary">
+                <em class="icon ni ni-save"></em><span>{{ __('{{slug}}::admin.save') }}</span>
+            </button>
+        </li>
+    </x-slot:actions>
+
+    <form method="POST" id="{{slug}}-form" action="{{ $item->exists ? route('admin.{{slug}}.update', $item) : route('admin.{{slug}}.store') }}">
+        @csrf
+        @if ($item->exists)
+            @method('PUT')
+        @endif
+
+        <div class="row g-gs">
+            <div class="col-lg-8">
+                <div class="card card-bordered">
+                    <div class="card-inner">
+                        <x-admin.form.translatable
+                            name="title"
+                            :label="__('{{slug}}::admin.fields.title')"
+                            :value="$item->getTranslations('title')"
+                            required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4">
+                <div class="card card-bordered">
+                    <div class="card-inner">
+                        <x-admin.form.checkbox name="is_active" :label="__('{{slug}}::admin.fields.is_active')" :checked="$item->is_active" />
+                        <x-admin.form.input name="sort_order" type="number" min="0" :label="__('{{slug}}::admin.fields.sort_order')" :value="$item->sort_order ?? 0" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</x-admin-layout::app>

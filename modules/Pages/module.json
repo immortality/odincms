@@ -1,0 +1,26 @@
+{
+    "name": "Pages",
+    "slug": "pages",
+    "version": "1.0.0",
+    "description": {
+        "en": "Static pages in a tree (/about, /about/team) with a choice of layout",
+        "ru": "Статические страницы в виде дерева (/about, /about/team) с выбором макета",
+        "ky": "Дарак түрүндөгү статикалык барактар (/about, /about/team), макетти тандоо менен"
+    },
+    "core": true,
+    "provider": "Modules\\Pages\\Providers\\PagesServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-file-alt",
+        "order": 20,
+        "items": [
+            { "label": "pages::admin.menu", "route": "admin.pages.index", "permission": "pages.view" }
+        ]
+    },
+    "permissions": ["pages.view", "pages.create", "pages.edit", "pages.delete"],
+    "widgets": ["Modules\\Pages\\Widgets\\PageWidget"],
+    "images": {
+        "image": { "label": "pages::admin.image_label", "width": 1200, "height": 630, "sizes": { "thumb": [600, 315] } }
+    }
+}

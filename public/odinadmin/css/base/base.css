@@ -1,0 +1,15 @@
+/* ============================================================
+   BASE
+   ============================================================ */
+* { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg-body);
+  color: var(--text-body);
+  margin: 0;
+  font-size: 14px;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}

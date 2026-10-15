@@ -1,0 +1,71 @@
+/* ============================================================
+   VARIABLES — Obsidian & Deep Teal
+   ============================================================ */
+:root {
+  /* Sidebar */
+  --sidebar-bg: #0B132B;
+  --sidebar-bg-hover: #1C2541;
+  --sidebar-bg-active: #3A506B;
+  --sidebar-text: #8D99AE;
+  --sidebar-text-active: #FFFFFF;
+  --sidebar-border: rgba(141, 153, 174, .12);
+
+  /* Surfaces */
+  --bg-body: #F8F9FA;
+  --bg-card: #FFFFFF;
+
+  /* Brand & states */
+  --primary: #00B4D8;
+  --primary-hover: #0096C7;
+  --primary-soft: rgba(0, 180, 216, .10);
+
+  --success: #10B981;
+  --success-soft: rgba(16, 185, 129, .12);
+  --warning: #F59E0B;
+  --warning-soft: rgba(245, 158, 11, .12);
+  --danger: #EF4444;
+  --danger-soft: rgba(239, 68, 68, .12);
+  --info: #0EA5E9;
+  --info-soft: rgba(14, 165, 233, .12);
+  --violet: #8B5CF6;
+  --violet-soft: rgba(139, 92, 246, .12);
+  --neutral-soft: #F1F5F9;
+
+  /* Status palette — alerts, toasts, badges (see base/palette.css).
+     Per colour: base / -hover (solid fill) / -bg (soft fill) / -text (on soft fill) */
+  --primary-bg: #E0F7FB;    --primary-text: #0E7490;
+  --success-hover: #059669; --success-bg: #E6F8F0; --success-text: #0D8A60;
+  --danger-hover: #DC2626;  --danger-bg: #FEE2E2;  --danger-text: #B91C1C;
+  --warning-hover: #D97706; --warning-bg: #FEF3C7; --warning-text: #B45309; --warning-on: #451A03;
+  --info-hover: #0284C7;    --info-bg: #E0F2FE;    --info-text: #0369A1;
+  --violet-hover: #7C3AED;  --violet-bg: #EDE9FE;  --violet-text: #6D28D9;
+  --light-bg: #F1F5F9;      --light-text: #475569; --light-border: #E2E8F0;
+  --dark: #334155;          --dark-text: #F8FAFC;  --dark-soft-bg: #E2E8F0; --dark-soft-text: #1E293B;
+
+  /* Text */
+  --text-dark: #0F172A;
+  --text-body: #334155;
+  --text-muted: #64748B;
+
+  /* Borders & radius */
+  --border: #E2E8F0;
+  --border-strong: #CBD5E1;
+
+  --border-w: 1px;
+  --radius-xs: 4px;
+  --radius-sm: 5px;
+  --radius-md: 6px;
+  --radius-lg: 6px;
+  --radius-xl: 6px;
+  --radius-pill: 100px;
+
+  /* Sizes */
+  --sidebar-w: 268px;
+  --topbar-h: 72px;
+  --footerbar-h: 56px;
+
+  /* Shadows */
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, .04), 0 4px 12px -2px rgba(15, 23, 42, .04);
+  --shadow-drop: 0 12px 32px -8px rgba(15, 23, 42, .14), 0 4px 12px -4px rgba(15, 23, 42, .08);
+  --shadow-teal: 0 6px 16px -4px rgba(0, 180, 216, .45);
+}

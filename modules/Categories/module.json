@@ -1,0 +1,23 @@
+{
+    "name": "Categories",
+    "slug": "categories",
+    "version": "1.0.0",
+    "description": {
+        "en": "Nested categories for other modules' content (blog posts, products, …)",
+        "ru": "Вложенные категории для материалов других модулей (записи блога, товары, …)",
+        "ky": "Башка модулдардын материалдары үчүн уясы бар категориялар (блог жазуулары, товарлар, …)"
+    },
+    "core": true,
+    "provider": "Modules\\Categories\\Providers\\CategoriesServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-folder-tree",
+        "order": 30,
+        "items": [
+            { "label": "categories::admin.menu", "route": "admin.categories.index", "permission": "categories.view" }
+        ]
+    },
+    "permissions": ["categories.view", "categories.create", "categories.edit", "categories.delete"],
+    "widgets": []
+}

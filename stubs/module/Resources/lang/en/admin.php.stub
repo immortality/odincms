@@ -1,0 +1,33 @@
+<?php
+
+return [
+    'menu' => '{{Title}}',
+    'title' => '{{Title}}',
+    'description' => 'Manage {{Title}}.',
+    'create' => 'Add',
+    'new' => 'New item',
+    'edit' => 'Edit',
+    'back' => 'Back to the list',
+    'save' => 'Save',
+    'search' => 'Search by title',
+    'empty' => 'Nothing here yet.',
+    'saved' => 'Saved.',
+    'deleted' => 'Deleted.',
+    'bulk_done' => '{1} :count item updated.|[2,*] :count items updated.',
+    'all_statuses' => 'All statuses',
+    'statuses' => [
+        'active' => 'Active',
+        'inactive' => 'Inactive',
+    ],
+    'actions' => [
+        'activate' => 'Activate',
+        'deactivate' => 'Deactivate',
+        'delete' => 'Delete',
+    ],
+    'fields' => [
+        'title' => 'Title',
+        'is_active' => 'Active',
+        'sort_order' => 'Sort order',
+        'updated_at' => 'Updated',
+    ],
+];

@@ -1,0 +1,162 @@
+/* ============================================================
+   MODALS & SIDE PANELS — Bootstrap modal / offcanvas restyle.
+   Reference page: modals.html (dialogs: css/vendor/sweetalert2.css)
+
+   <div class="modal fade" id="x" tabindex="-1" aria-labelledby="x-title" aria-hidden="true">
+     <div class="modal-dialog">                  + modal-sm | modal-lg | modal-xl | modal-fullscreen
+                                                 + modal-dialog-centered | modal-dialog-bottom
+                                                 + modal-dialog-scrollable
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="x-title">Title</h5>
+           <button type="button" class="modal-close" data-bs-dismiss="modal" aria-label="Close"><i class="fas fa-times"></i></button>
+         </div>
+         <div class="modal-body">…</div>
+         <div class="modal-footer">…buttons…</div>     (.plain = white footer)
+       </div>
+     </div>
+   </div>
+   Zoom-in animation: add .zoom next to .modal.fade.
+   Result modal: .modal-body.modal-result with .modal-icon.success|danger|… (palette colours).
+   ============================================================ */
+.modal {
+  --bs-modal-width: 520px;
+  --bs-modal-border-width: 0;
+  --bs-modal-border-radius: var(--radius-lg);
+  --bs-modal-inner-border-radius: var(--radius-lg);
+  --bs-modal-box-shadow: 0 0 1px rgba(15, 23, 42, .2), 0 10px 30px -4px rgba(15, 23, 42, .22);
+  --bs-modal-header-padding: 18px 24px;
+  --bs-modal-padding: 24px;
+  --bs-modal-footer-gap: 10px;
+}
+@media (min-width: 576px) {
+  .modal { --bs-modal-margin: 2rem; --bs-modal-box-shadow: 0 0 1px rgba(15, 23, 42, .2), 0 10px 30px -4px rgba(15, 23, 42, .22); }
+  .modal-sm { --bs-modal-width: 360px; }
+}
+@media (min-width: 992px) {
+  .modal-lg, .modal-xl { --bs-modal-width: 720px; }
+}
+@media (min-width: 1200px) {
+  .modal-xl { --bs-modal-width: 980px; }
+}
+.modal-backdrop { --bs-backdrop-bg: #0F172A; --bs-backdrop-opacity: .45; }
+
+.modal-content { position: relative; box-shadow: var(--bs-modal-box-shadow); }
+.modal-header { border-bottom: 1px solid var(--border); }
+.modal-title { font-size: 1.05rem; font-weight: 700; color: var(--text-dark); }
+.modal-title + .modal-sub,
+.modal-sub { display: block; font-size: .78rem; font-weight: 400; color: var(--text-muted); margin-top: 2px; }
+.modal-body { font-size: .85rem; line-height: 1.65; color: var(--text-body); }
+.modal-body p:last-child { margin-bottom: 0; }
+.modal-footer {
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  background: #F8FAFC;
+  border-bottom-left-radius: var(--radius-lg);
+  border-bottom-right-radius: var(--radius-lg);
+}
+.modal-footer > * { margin: 0; }
+.modal-footer.plain { background: transparent; }
+.modal-footer .footer-note { margin-right: auto; font-size: .78rem; color: var(--text-muted); }
+.modal-fullscreen .modal-footer { border-radius: 0; }
+
+/* Close: plain × in the header, or in the corner when the modal has no header */
+.modal-close {
+  width: 34px;
+  height: 34px;
+  margin: -6px -10px -6px auto;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: color .15s, background .15s;
+}
+.modal-close:hover { color: var(--text-dark); background: var(--neutral-soft); }
+.modal-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+.modal-content > .modal-close { position: absolute; top: 12px; right: 12px; margin: 0; z-index: 2; }
+
+/* Bottom position */
+.modal-dialog-bottom {
+  display: flex;
+  align-items: flex-end;
+  min-height: calc(100% - var(--bs-modal-margin) * 2);
+}
+.modal.fade .modal-dialog-bottom { transform: translate(0, 50px); }
+.modal.show .modal-dialog-bottom { transform: none; }
+
+/* Zoom-in animation */
+.modal.zoom .modal-dialog { transform: scale(.95); transition: transform .2s ease-out; }
+.modal.zoom.show .modal-dialog { transform: none; }
+
+/* Result modal (success / error) */
+.modal-result { padding: 40px 32px 36px; text-align: center; }
+.modal-icon {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--c-solid);
+  color: var(--c-on);
+  font-size: 1.8rem;
+}
+.modal-icon.soft { background: var(--c-bg); color: var(--c); }
+.modal-result .modal-title { font-size: 1.3rem; margin-bottom: 8px; }
+.modal-result .lead { font-size: .95rem; color: var(--text-body); margin-bottom: 6px; }
+.modal-result .text-soft { font-size: .8rem; color: var(--text-muted); }
+.modal-result .modal-actions { margin-top: 28px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+
+/* Media preview: image edge-to-edge */
+.modal-media .modal-body { padding: 0; background: #0F172A; }
+.modal-media img { display: block; width: 100%; height: auto; max-height: 70vh; object-fit: contain; }
+
+/* Tabs directly under a modal title */
+.modal-body > .tabs { margin: -8px 0 0; }
+
+/* ---------- Side panel (Bootstrap offcanvas) ---------- */
+.offcanvas {
+  --bs-offcanvas-width: 420px;
+  --bs-offcanvas-border-width: 0;
+  --bs-offcanvas-padding-x: 24px;
+  --bs-offcanvas-padding-y: 20px;
+  box-shadow: -8px 0 30px -6px rgba(15, 23, 42, .2);
+}
+.offcanvas-backdrop { --bs-backdrop-bg: #0F172A; --bs-backdrop-opacity: .45; }
+.offcanvas-header { border-bottom: 1px solid var(--border); }
+.offcanvas-title { font-size: 1.05rem; font-weight: 700; color: var(--text-dark); }
+.offcanvas-body { font-size: .85rem; color: var(--text-body); }
+.offcanvas-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid var(--border);
+  background: #F8FAFC;
+}
+
+/* Demo list on the reference page: name + description + button */
+.demo-list { display: flex; flex-direction: column; }
+.demo-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid #F1F5F9;
+}
+.demo-item:first-child { padding-top: 0; }
+.demo-item:last-child { border-bottom: 0; padding-bottom: 0; }
+.demo-item .di-text { flex: 1; min-width: 0; }
+.demo-item .di-title { display: block; font-size: .84rem; font-weight: 600; color: var(--text-dark); }
+.demo-item .di-desc { display: block; font-size: .74rem; color: var(--text-muted); }
+.demo-item > .btn-soft { flex-shrink: 0; }
+
+@media (max-width: 575.98px) {
+  .offcanvas { --bs-offcanvas-width: 100%; }
+  .modal-result { padding: 32px 20px 28px; }
+}

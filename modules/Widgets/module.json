@@ -1,0 +1,23 @@
+{
+    "name": "Widgets",
+    "slug": "widgets",
+    "version": "1.1.0",
+    "description": {
+        "en": "Fill the theme's areas (hero, home page, sidebar) with configurable blocks",
+        "ru": "Заполнение областей темы (первый экран, главная, боковая колонка) настраиваемыми блоками",
+        "ky": "Теманын аймактарын (биринчи экран, башкы бет, каптал тилке) жөндөлүүчү блоктор менен толтуруу"
+    },
+    "core": true,
+    "provider": "Modules\\Widgets\\Providers\\WidgetsServiceProvider",
+    "requires": ["groups"],
+    "admin_menu": {
+        "group": "appearance",
+        "icon": "fas fa-puzzle-piece",
+        "order": 20,
+        "items": [
+            { "label": "widgets::admin.menu", "route": "admin.widgets.index", "permission": "widgets.view" }
+        ]
+    },
+    "permissions": ["widgets.view", "widgets.create", "widgets.edit", "widgets.delete"],
+    "widgets": []
+}

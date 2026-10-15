@@ -1,0 +1,51 @@
+/* ============================================================
+   APP SHELL — wrapper, main column, content area
+   ============================================================ */
+.app {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.main-col {
+  flex: 1;
+  min-width: 0;
+  margin-left: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: margin-left .3s ease;
+}
+
+.content {
+  flex: 1;
+  padding: 26px 28px 40px;
+  min-width: 0;
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.page-title {
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -.025em;
+  color: var(--text-dark);
+  margin: 0 0 4px;
+}
+.page-sub {
+  color: var(--text-muted);
+  font-size: .85rem;
+  margin: 0;
+}
+
+@media (max-width: 991.98px) {
+  .main-col { margin-left: 0; }
+  .content { padding: 18px 16px 40px; }
+}

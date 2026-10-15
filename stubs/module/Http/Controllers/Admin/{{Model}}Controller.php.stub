@@ -1,0 +1,108 @@
+<?php
+
+namespace {{namespace}}\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Contracts\View\View;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
+use {{namespace}}\Http\Requests\{{Model}}Request;
+use {{namespace}}\Models\{{Model}};
+
+class {{Model}}Controller extends Controller
+{
+    public function index(Request $request): View
+    {
+        Gate::authorize('viewAny', {{Model}}::class);
+
+        $locale = app()->getLocale();
+        $perPage = min(max($request->integer('per_page', 20), 5), 100);
+
+        $items = {{Model}}::query()
+            ->when($request->string('search')->trim()->toString(), function (Builder $query, string $search) use ($locale) {
+                $query->where("title->{$locale}", 'like', '%'.$search.'%');
+            })
+            ->when($request->filled('status'), function (Builder $query) use ($request) {
+                $query->where('is_active', $request->string('status')->toString() === 'active');
+            })
+            ->orderBy('sort_order')
+            ->latest('id')
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return view('{{slug}}::admin.index', ['items' => $items]);
+    }
+
+    public function create(): View
+    {
+        Gate::authorize('create', {{Model}}::class);
+
+        return view('{{slug}}::admin.form', ['item' => new {{Model}}(['is_active' => true])]);
+    }
+
+    public function store({{Model}}Request $request): RedirectResponse
+    {
+        Gate::authorize('create', {{Model}}::class);
+
+        $item = {{Model}}::create($request->modelAttributes());
+
+        return redirect()->route('admin.{{slug}}.edit', $item)->with('success', __('{{slug}}::admin.saved'));
+    }
+
+    public function edit({{Model}} $item): View
+    {
+        Gate::authorize('update', $item);
+
+        return view('{{slug}}::admin.form', ['item' => $item]);
+    }
+
+    public function update({{Model}}Request $request, {{Model}} $item): RedirectResponse
+    {
+        Gate::authorize('update', $item);
+
+        $item->update($request->modelAttributes());
+
+        return redirect()->route('admin.{{slug}}.edit', $item)->with('success', __('{{slug}}::admin.saved'));
+    }
+
+    public function destroy({{Model}} $item): RedirectResponse
+    {
+        Gate::authorize('delete', $item);
+
+        $item->delete();
+
+        return redirect()->route('admin.{{slug}}.index')->with('success', __('{{slug}}::admin.deleted'));
+    }
+
+    public function bulk(Request $request): RedirectResponse
+    {
+        // Permission first, so users without it get 403 rather than validation errors.
+        abort_unless(Gate::any(['{{slug}}.edit', '{{slug}}.delete']), 403);
+
+        $request->validate([
+            'action' => ['required', Rule::in(['activate', 'deactivate', 'delete'])],
+            'ids' => ['required', 'array'],
+            'ids.*' => ['integer'],
+        ]);
+
+        $action = $request->string('action')->toString();
+        $items = {{Model}}::whereKey($request->array('ids'))->get();
+
+        foreach ($items as $item) {
+            Gate::authorize($action === 'delete' ? 'delete' : 'update', $item);
+        }
+
+        foreach ($items as $item) {
+            if ($action === 'delete') {
+                $item->delete();
+            } else {
+                $item->update(['is_active' => $action === 'activate']);
+            }
+        }
+
+        return back()->with('success', trans_choice('{{slug}}::admin.bulk_done', $items->count(), ['count' => $items->count()]));
+    }
+}

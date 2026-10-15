@@ -1,0 +1,67 @@
+<?php
+
+namespace {{namespace}}\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use {{namespace}}\Models\{{Model}};
+
+/**
+ * Create and update a {{Model}}. Authorized by {{Model}}Policy before validation, so users
+ * without permission get 403 instead of validation errors.
+ */
+class {{Model}}Request extends FormRequest
+{
+    public function authorize(): bool
+    {
+        $item = $this->route('item');
+
+        return $item instanceof {{Model}}
+            ? (bool) $this->user()?->can('update', $item)
+            : (bool) $this->user()?->can('create', {{Model}}::class);
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function rules(): array
+    {
+        $default = config('cms.default_locale');
+
+        return [
+            'title' => ['required', 'array'],
+            "title.{$default}" => ['required', 'string', 'max:255'],
+            'title.*' => ['nullable', 'string', 'max:255'],
+            'is_active' => ['boolean'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+        ];
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    public function attributes(): array
+    {
+        $attributes = [];
+        foreach (config('cms.locales') as $locale) {
+            $attributes["title.{$locale}"] = __('{{slug}}::admin.fields.title').' ('.strtoupper($locale).')';
+        }
+
+        return $attributes;
+    }
+
+    /**
+     * The validated data, ready for the model: empty translations are left out.
+     *
+     * @return array<string, mixed>
+     */
+    public function modelAttributes(): array
+    {
+        $data = $this->validated();
+
+        return [
+            'title' => array_filter((array) $data['title'], fn ($value) => filled($value)),
+            'is_active' => (bool) ($data['is_active'] ?? false),
+            'sort_order' => (int) ($data['sort_order'] ?? 0),
+        ];
+    }
+}

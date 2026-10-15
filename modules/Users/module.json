@@ -1,0 +1,23 @@
+{
+    "name": "Users",
+    "slug": "users",
+    "version": "1.0.0",
+    "description": {
+        "en": "User accounts, profiles and avatars",
+        "ru": "Учётные записи пользователей, профили и аватары",
+        "ky": "Колдонуучулардын эсептери, профилдер жана аватарлар"
+    },
+    "core": true,
+    "provider": "Modules\\Users\\Providers\\UsersServiceProvider",
+    "requires": ["groups"],
+    "admin_menu": {
+        "group": "users",
+        "icon": "fas fa-user-friends",
+        "order": 10,
+        "items": [
+            { "label": "users::admin.menu", "route": "admin.users.index", "permission": "users.view" }
+        ]
+    },
+    "permissions": ["users.view", "users.create", "users.edit", "users.delete"],
+    "widgets": []
+}

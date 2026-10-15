@@ -1,0 +1,23 @@
+{
+    "name": "Settings",
+    "slug": "settings",
+    "version": "1.0.0",
+    "description": {
+        "en": "Site name, languages, mail, registration and maintenance mode; modules add their own sections",
+        "ru": "Название сайта, языки, почта, регистрация и режим обслуживания; модули добавляют свои разделы",
+        "ky": "Сайттын аты, тилдер, почта, каттоо жана тейлөө режими; модулдар өз бөлүмдөрүн кошот"
+    },
+    "core": true,
+    "provider": "Modules\\Settings\\Providers\\SettingsServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "system",
+        "icon": "fas fa-sliders-h",
+        "order": 20,
+        "items": [
+            { "label": "settings::admin.menu", "route": "admin.settings.index", "permission": "settings.view" }
+        ]
+    },
+    "permissions": ["settings.view", "settings.edit"],
+    "widgets": []
+}

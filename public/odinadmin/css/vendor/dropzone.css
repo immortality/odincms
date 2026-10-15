@@ -1,0 +1,125 @@
+/* ============================================================
+   DROPZONE 5 — OdinAdmin upload area (Dropzone's own CSS is NOT loaded)
+   Markup: .dz-area[data-dropzone] with a .dz-message inside, and a
+   separate .dz-previews container. Preview template: js/forms.js.
+   ============================================================ */
+.dz-area {
+  display: block;
+  padding: 28px 20px;
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: #F8FAFC;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.dz-area:hover,
+.dz-area:focus-visible,
+.dz-area.dz-drag-hover {
+  border-color: var(--primary);
+  background: var(--primary-soft);
+  outline: 0;
+}
+.dz-area.dz-compact { padding: 18px 16px; }
+.dz-message { margin: 0; pointer-events: none; }
+.dz-message .dz-ico {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--primary-soft);
+  color: var(--primary);
+  font-size: 1.15rem;
+}
+.dz-area.dz-drag-hover .dz-ico { background: var(--primary); color: #fff; }
+.dz-message .dz-title { display: block; font-size: .86rem; font-weight: 600; color: var(--text-dark); }
+.dz-message .dz-title span { color: var(--primary); text-decoration: underline; }
+.dz-message .dz-hint { display: block; margin-top: 4px; font-size: .74rem; color: var(--text-muted); }
+
+/* Previews */
+.dz-previews {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(118px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.dz-previews:empty { display: none; }
+.dz-previews.dz-single { grid-template-columns: 1fr; }
+.dz-single .dz-thumb { aspect-ratio: 16 / 9; }
+
+.dz-preview {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+}
+.dz-thumb {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  background: var(--neutral-soft);
+  color: var(--border-strong);
+  font-size: 1.6rem;
+}
+.dz-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dz-thumb img:not([src]) { display: none; }
+.dz-image-preview .dz-thumb > i { display: none; }
+.dz-meta { padding: 6px 8px 7px; }
+.dz-name {
+  display: block;
+  font-size: .72rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dz-size { display: block; font-size: .68rem; color: var(--text-muted); }
+.dz-size strong { font-weight: 600; }
+
+.dz-progress { height: 3px; background: var(--border); }
+.dz-progress .dz-upload { display: block; height: 100%; width: 0; background: var(--primary); transition: width .3s; }
+.dz-preview:not(.dz-processing) .dz-progress,
+.dz-preview.dz-complete .dz-progress { display: none; }
+
+.dz-error-message { display: none; padding: 0 8px 7px; font-size: .68rem; font-weight: 500; color: var(--danger); }
+.dz-preview.dz-error { border-color: var(--danger); }
+.dz-preview.dz-error .dz-error-message { display: block; }
+
+.dz-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, .6);
+  color: #fff;
+  font-size: .72rem;
+  cursor: pointer;
+  transition: background .15s;
+}
+.dz-remove-btn:hover { background: var(--danger); }
+
+/* First image of a gallery = cover */
+.dz-cover-badge { display: none; }
+.dz-previews[data-cover] .dz-preview:first-child .dz-cover-badge {
+  display: block;
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+  background: var(--primary);
+  color: #fff;
+  font-size: .62rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}

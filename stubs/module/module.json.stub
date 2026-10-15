@@ -1,0 +1,21 @@
+{
+    "name": "{{Title}}",
+    "slug": "{{slug}}",
+    "version": "1.0.0",
+    "description": {
+        "en": "{{Title}} module"
+    },
+    "core": false,
+    "provider": "Modules\\{{Name}}\\Providers\\{{Name}}ServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "ni-folder",
+        "order": 50,
+        "items": [
+            { "label": "{{slug}}::admin.menu", "route": "admin.{{slug}}.index", "permission": "{{slug}}.view" }
+        ]
+    },
+    "permissions": ["{{slug}}.view", "{{slug}}.create", "{{slug}}.edit", "{{slug}}.delete"],
+    "widgets": []
+}

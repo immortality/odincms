@@ -1,0 +1,100 @@
+/* ============================================================
+   FLATPICKR 4.6 — OdinAdmin theme
+   Page loads flatpickr.min.css from the CDN before style.css.
+   ============================================================ */
+.flatpickr-calendar {
+  font-family: inherit;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-drop);
+}
+.flatpickr-calendar::before,
+.flatpickr-calendar::after { display: none; }
+.flatpickr-calendar.arrowTop { margin-top: 4px; }
+.flatpickr-calendar.arrowBottom { margin-top: -4px; }
+.flatpickr-calendar.inline { box-shadow: none; }
+
+.flatpickr-months { padding: 4px 0; }
+.flatpickr-months .flatpickr-month { color: var(--text-dark); fill: var(--text-dark); }
+.flatpickr-current-month { font-size: .92rem; font-weight: 600; }
+.flatpickr-current-month .flatpickr-monthDropdown-months { font-weight: 600; }
+.flatpickr-current-month .flatpickr-monthDropdown-months:hover,
+.flatpickr-current-month input.cur-year:hover { background: var(--primary-soft); }
+.flatpickr-current-month input.cur-year { font-weight: 600; }
+.flatpickr-months .flatpickr-prev-month,
+.flatpickr-months .flatpickr-next-month { top: 4px; }
+.flatpickr-months .flatpickr-prev-month svg,
+.flatpickr-months .flatpickr-next-month svg { fill: var(--text-muted); }
+.flatpickr-months .flatpickr-prev-month:hover svg,
+.flatpickr-months .flatpickr-next-month:hover svg { fill: var(--primary); }
+
+span.flatpickr-weekday { font-size: .7rem; font-weight: 600; color: var(--text-muted); }
+
+.flatpickr-day {
+  border-radius: var(--radius-sm);
+  font-size: .82rem;
+  font-weight: 500;
+  color: var(--text-body);
+}
+.flatpickr-day:hover,
+.flatpickr-day:focus,
+.flatpickr-day.prevMonthDay:hover,
+.flatpickr-day.nextMonthDay:hover {
+  background: var(--primary-soft);
+  border-color: transparent;
+  color: var(--primary);
+}
+.flatpickr-day.prevMonthDay,
+.flatpickr-day.nextMonthDay { color: var(--border-strong); }
+.flatpickr-day.today { border-color: var(--primary); }
+.flatpickr-day.today:hover,
+.flatpickr-day.today:focus { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); }
+.flatpickr-day.flatpickr-disabled,
+.flatpickr-day.flatpickr-disabled:hover { color: var(--border-strong); background: transparent; }
+
+.flatpickr-day.selected,
+.flatpickr-day.startRange,
+.flatpickr-day.endRange,
+.flatpickr-day.selected:hover,
+.flatpickr-day.startRange:hover,
+.flatpickr-day.endRange:hover,
+.flatpickr-day.selected:focus,
+.flatpickr-day.startRange:focus,
+.flatpickr-day.endRange:focus,
+.flatpickr-day.selected.prevMonthDay,
+.flatpickr-day.selected.nextMonthDay {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.flatpickr-day.inRange,
+.flatpickr-day.inRange:hover {
+  background: var(--primary-soft);
+  border-color: transparent;
+  color: var(--text-dark);
+  box-shadow: -5px 0 0 var(--primary-soft), 5px 0 0 var(--primary-soft);
+}
+.flatpickr-day.selected.startRange,
+.flatpickr-day.startRange.startRange,
+.flatpickr-day.endRange.startRange { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
+.flatpickr-day.selected.endRange,
+.flatpickr-day.startRange.endRange,
+.flatpickr-day.endRange.endRange { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.flatpickr-day.selected.startRange.endRange,
+.flatpickr-day.startRange.startRange.endRange,
+.flatpickr-day.endRange.startRange.endRange { border-radius: var(--radius-sm); }
+.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)),
+.flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)),
+.flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) { box-shadow: -10px 0 0 var(--primary); }
+
+/* Time */
+.flatpickr-calendar.hasTime .flatpickr-time { border-top: 1px solid var(--border); }
+.flatpickr-calendar.noCalendar.hasTime .flatpickr-time { border-top: 0; }
+.flatpickr-time input,
+.flatpickr-time .flatpickr-am-pm,
+.flatpickr-time .flatpickr-time-separator { font-size: .92rem; font-weight: 600; color: var(--text-dark); }
+.flatpickr-time input:hover,
+.flatpickr-time input:focus,
+.flatpickr-time .flatpickr-am-pm:hover,
+.flatpickr-time .flatpickr-am-pm:focus { background: var(--primary-soft); }
+.numInputWrapper span:hover { background: var(--primary-soft); }

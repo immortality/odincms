@@ -1,0 +1,146 @@
+/* ============================================================
+   TABS — reference page: tabs.html
+   Behaviour: Bootstrap tab plugin (no extra JS; arrow keys work).
+   Horizontal: .tabs           underline style, active tab gets a 3px bar
+   Vertical:   .tabs-vertical  bordered list with a chevron, active item in brand colour
+   Icons:      put <i class="fas fa-…"></i> before the <span> label (both styles)
+   Small:      .tabs.tabs-sm (inside a form field)   Error: .tab-link.has-error
+
+   <ul class="tabs" role="tablist">
+     <li role="presentation">
+       <button class="tab-link active" type="button" role="tab" data-bs-toggle="tab"
+               data-bs-target="#tab-general" aria-controls="tab-general" aria-selected="true">
+         <i class="fas fa-sliders-h"></i><span>General</span>
+       </button>
+     </li>
+   </ul>
+   <div class="tab-content">
+     <div class="tab-pane fade show active" id="tab-general" role="tabpanel" tabindex="0">…</div>
+   </div>
+   ============================================================ */
+
+/* ---------- Shared ---------- */
+.tab-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  font-size: .85rem;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .2s;
+}
+.tab-link i { flex-shrink: 0; font-size: 1rem; transition: color .2s; }
+.tab-link .badge-count { margin-left: 2px; }
+.tab-link:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; border-radius: var(--radius-xs); }
+
+.tab-content {
+  font-size: .85rem;
+  line-height: 1.65;
+  color: var(--text-body);
+}
+.tab-pane p { margin-bottom: 12px; }
+.tab-pane > :last-child { margin-bottom: 0; }
+.tab-pane:focus-visible { outline: 0; }
+
+/* ---------- Horizontal ---------- */
+.tabs {
+  display: flex;
+  gap: 28px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;              /* many tabs on a phone: swipe sideways */
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tabs > li { flex-shrink: 0; }
+.tabs .tab-link {
+  padding: 16px 0;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.tabs .tab-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: var(--primary);
+  opacity: 0;
+  transition: opacity .2s;
+}
+.tabs .tab-link:hover { color: var(--text-dark); }
+.tabs .tab-link.active { color: var(--primary); }
+.tabs .tab-link.active::after { opacity: 1; }
+.tabs + .tab-content { margin-top: 20px; }
+
+/* Small: tabs inside a form field (e.g. one per language): <ul class="tabs tabs-sm"> */
+.tabs.tabs-sm { gap: 18px; }
+.tabs-sm .tab-link { padding: 6px 0 8px; font-size: .76rem; letter-spacing: .03em; }
+.tabs-sm .tab-link::after { height: 2px; }
+.tabs.tabs-sm + .tab-content { margin-top: 12px; }
+
+/* A tab whose panel has a validation error: <button class="tab-link has-error"> */
+.tab-link.has-error,
+.tab-link.has-error.active { color: var(--danger); }
+.tab-link.has-error::after { background: var(--danger); }
+
+/* ---------- Vertical ---------- */
+.tabs-vertical {
+  margin: 0;
+  padding: 12px 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+.tabs-vertical .tab-link {
+  display: flex;
+  width: 100%;
+  gap: 0;
+  padding: 16px 48px 16px 24px;
+  font-weight: 500;
+  color: var(--text-body);
+  text-align: left;
+}
+.tabs-vertical .tab-link i {
+  width: 28px;
+  font-size: 1rem;
+  color: var(--text-muted);
+  opacity: .8;
+}
+.tabs-vertical .tab-link::after {
+  content: '\f054';                     /* fa-chevron-right */
+  position: absolute;
+  top: 50%;
+  right: 24px;
+  transform: translateY(-50%);
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  font-size: .7rem;
+  color: var(--border-strong);
+  transition: color .2s;
+}
+.tabs-vertical .tab-link:hover,
+.tabs-vertical .tab-link.active,
+.tabs-vertical .tab-link:hover i,
+.tabs-vertical .tab-link.active i,
+.tabs-vertical .tab-link:hover::after,
+.tabs-vertical .tab-link.active::after { color: var(--primary); }
+.tabs-vertical .tab-link.active i { opacity: 1; }
+
+@media (min-width: 1200px) {
+  .tabs { gap: 36px; }
+}
+@media (max-width: 575.98px) {
+  .tabs { gap: 20px; }
+  .tabs-vertical .tab-link { padding: 12px 40px 12px 20px; }
+  .tabs-vertical .tab-link::after { right: 20px; }
+}

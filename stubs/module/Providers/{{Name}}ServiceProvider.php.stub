@@ -1,0 +1,17 @@
+<?php
+
+namespace {{namespace}}\Providers;
+
+use App\Cms\Modules\ModuleServiceProvider;
+
+/**
+ * Views (`{{slug}}::`), translations, migrations and routes are loaded by ModuleServiceProvider.
+ * If you override boot(), call parent::boot().
+ */
+class {{Name}}ServiceProvider extends ModuleServiceProvider
+{
+    public function register(): void
+    {
+        //
+    }
+}

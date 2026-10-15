@@ -1,0 +1,410 @@
+// Frontend theme "default", built into one CSS file: Bootstrap 5, Bootstrap Icons, the fonts (self-hosted),
+// the OdinZero template (html/assets/css/index6.css, copied to themes/default/index6.css) and the CMS
+// additions below, which use the template's tokens (--ink, --blue, --line, …).
+
+// Bootstrap without the components the site never uses (accordion, list group, toasts, modal, tooltip,
+// popover, spinners, placeholders). Add one back here when a theme view needs it.
+@import 'bootstrap/scss/functions';
+@import 'bootstrap/scss/variables';
+@import 'bootstrap/scss/variables-dark';
+@import 'bootstrap/scss/maps';
+@import 'bootstrap/scss/mixins';
+@import 'bootstrap/scss/utilities';
+@import 'bootstrap/scss/root';
+@import 'bootstrap/scss/reboot';
+@import 'bootstrap/scss/type';
+@import 'bootstrap/scss/images';
+@import 'bootstrap/scss/containers';
+@import 'bootstrap/scss/grid';
+@import 'bootstrap/scss/tables';
+@import 'bootstrap/scss/forms';
+@import 'bootstrap/scss/buttons';
+@import 'bootstrap/scss/transitions';
+@import 'bootstrap/scss/dropdown';
+@import 'bootstrap/scss/button-group';
+@import 'bootstrap/scss/nav';
+@import 'bootstrap/scss/navbar';
+@import 'bootstrap/scss/card';
+@import 'bootstrap/scss/breadcrumb';
+@import 'bootstrap/scss/pagination';
+@import 'bootstrap/scss/badge';
+@import 'bootstrap/scss/alert';
+@import 'bootstrap/scss/progress';
+@import 'bootstrap/scss/close';
+@import 'bootstrap/scss/carousel';
+@import 'bootstrap/scss/offcanvas';
+@import 'bootstrap/scss/helpers';
+@import 'bootstrap/scss/utilities/api';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+// Variable fonts: one file per alphabet, downloaded only when a page uses it (unicode-range).
+@import '@fontsource-variable/inter/index.css';
+@import '@fontsource-variable/space-grotesk/index.css';
+@import 'themes/default/index6';
+
+:root {
+    --font-body: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-head: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
+}
+
+// Inner pages (pages, blog, services, errors): the template's roomier vertical spacing
+.site-main > main.container.py-5 {
+    padding-top: 64px !important;
+    padding-bottom: 96px !important;
+}
+
+.site-main h1 {
+    letter-spacing: -0.03em;
+}
+
+.breadcrumb {
+    font-size: 14px;
+
+    a {
+        color: var(--muted);
+    }
+
+    a:hover {
+        color: var(--blue);
+    }
+}
+
+// Header menu (Navigation module markup: ul.navbar-nav > li.nav-item > a.nav-link)
+.main-nav .navbar-nav {
+    flex-direction: row;
+}
+
+// Language links in the header: EN RU KY, the current one in navy
+.lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    a {
+        color: var(--muted);
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+    }
+
+    a:hover {
+        color: var(--blue);
+    }
+
+    a.active {
+        color: #1e3a8a; // navy
+    }
+}
+
+// Mobile menu: the same markup in a column
+.offcanvas .navbar-nav {
+    flex-direction: column;
+
+    .dropdown-menu {
+        position: static;
+        border: 0;
+        box-shadow: none;
+        padding: 0 0 8px 12px;
+    }
+
+    .dropdown-item {
+        padding: 8px 0;
+        color: var(--ink);
+        font-weight: 500;
+    }
+}
+
+// Footer widgets (Widgets module markup: section.widget > h2.widget-title + .widget-body)
+.footer {
+    .widget-title {
+        color: #fff;
+        font-size: 19px;
+        margin-bottom: 24px;
+    }
+
+    .widget-body p,
+    .widget-body li {
+        color: #9ca3af;
+    }
+
+    .brand img {
+        height: 60px;
+    }
+
+}
+
+// Cards from the Blog / Services modules on inner pages
+.site-main .card {
+    border-color: var(--line);
+    border-radius: var(--radius);
+}
+
+// Text from the editor (blog posts, pages, HTML widgets)
+.post-body,
+.page-body {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--bs-border-radius);
+    }
+
+    // Only headings of the text itself: template blocks pasted in the editor (.about-feature h4, cards…)
+    // keep their own spacing.
+    > h2,
+    > h3,
+    > h4 {
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    blockquote {
+        margin: 1.5rem 0;
+        padding: 0.5rem 1.25rem;
+        border-left: 4px solid var(--bs-primary);
+        color: var(--bs-secondary-color);
+    }
+
+    table {
+        width: 100%;
+        margin-bottom: 1.5rem;
+        border-collapse: collapse;
+
+        th,
+        td {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid var(--bs-border-color);
+        }
+    }
+
+    pre {
+        padding: 1rem;
+        background: var(--bs-tertiary-bg);
+        border-radius: var(--bs-border-radius);
+    }
+
+    // YouTube / Vimeo embeds scale with the column
+    iframe {
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
+        height: auto;
+        border: 0;
+    }
+}
+
+// Widgets (e.g. Text / HTML) keep images inside their column
+.widget-body img {
+    max-width: 100%;
+    height: auto;
+}
+
+// Hero banners (Banners module widgets). The title may be an h2 on later slides: style it like the template's h1.
+.hero .hero-title {
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.03;
+    margin-bottom: 24px;
+    letter-spacing: -0.04em;
+
+    .grad {
+        background: linear-gradient(90deg, var(--blue), var(--ink));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+}
+
+// Banner slider: arrows and dots under the slides, in the template's round-button style
+.hero-slider-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 48px;
+
+    > button {
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        font-size: 18px;
+        transition: all 0.25s var(--ease);
+    }
+
+    > button:hover {
+        background: var(--blue);
+        border-color: var(--blue);
+        color: #fff;
+    }
+}
+
+.hero-slider-dots.carousel-indicators {
+    position: static;
+    margin: 0;
+    gap: 8px;
+    justify-content: flex-start;
+
+    [data-bs-target] {
+        width: 10px;
+        height: 10px;
+        margin: 0;
+        border: 0;
+        border-radius: 999px;
+        background: var(--line);
+        opacity: 1;
+        transition: width 0.3s var(--ease), background-color 0.3s var(--ease);
+    }
+
+    .active {
+        width: 28px;
+        background: var(--blue);
+    }
+}
+
+// Site contact links (<x-theme::contact-link>): icon and text side by side
+.footer .contact li > a,
+.footer .contact li > span {
+    display: inline-flex;
+    gap: 12px;
+}
+
+.offcanvas .contact-links a {
+    color: var(--muted);
+}
+
+.offcanvas .contact-links a:hover {
+    color: var(--blue);
+}
+
+// Footer menu (Navigation → "footer") as a column of links
+.footer-menu .navbar-nav {
+    flex-direction: column;
+    gap: 12px;
+
+    .nav-link {
+        color: #9ca3af;
+        padding: 0;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+        color: var(--lime);
+    }
+
+    .dropdown-menu {
+        display: none;
+    }
+}
+
+.footer-tagline {
+    max-width: 380px;
+}
+
+// Home page sections ("home" widget area): one rhythm, every other section on the light background
+.home-section {
+    padding: 100px 0;
+
+    &.is-alt {
+        background: var(--wash);
+    }
+
+    @media (max-width: 991.98px) {
+        padding: 72px 0;
+    }
+}
+
+// "Page" widget: the page image beside the text
+.page-widget-art img {
+    width: 100%;
+    border-radius: var(--radius-lg);
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    box-shadow: var(--shadow);
+}
+
+// Section heading in a text column (<x-theme::section-head align="start">) and the widgets' "detail" content
+.section-head-start .section-title {
+    margin-bottom: 18px;
+}
+
+.widget-detail {
+    margin-bottom: 32px;
+
+    > :last-child {
+        margin-bottom: 0;
+    }
+}
+
+// A section heading beside a button (e.g. the news cards): no space under its last line
+.section-head-start.mb-0 > :last-child {
+    margin-bottom: 0;
+}
+
+// News cards (Latest posts widget, "cards"): a drawn cover for posts without an image
+.blog-card-placeholder {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 10;
+    background:
+        radial-gradient(rgba(255, 255, 255, 0.2) 1.2px, transparent 1.2px) 0 0 / 18px 18px,
+        linear-gradient(135deg, var(--blue), var(--blue-deep));
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 48px;
+}
+
+// "Request a free consultation" (Consultations module widget): the template's .cta-box / .cta-form
+.consultation-box {
+    scroll-margin-top: 110px; // the sticky header
+
+    .section-title {
+        color: #fff;
+        font-size: clamp(28px, 3.6vw, 44px);
+    }
+
+    .cta-form-title {
+        font-size: 22px;
+        margin-bottom: 18px;
+    }
+
+    .invalid-feedback {
+        font-size: 13px;
+    }
+
+    // Honeypot: off screen for people, still filled in by bots
+    .consultation-hp {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+    }
+}
+
+.consultation-sent {
+    text-align: center;
+
+    h3 {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    p {
+        color: var(--muted);
+    }
+}
+
+.consultation-sent-icon {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 18px;
+    border-radius: 50%;
+    background: var(--lime);
+    color: var(--ink);
+    font-size: 30px;
+}
+
+// Landing page sections (Sections module widgets)
+@import 'theme/sections';

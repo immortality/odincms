@@ -1,0 +1,55 @@
+/* ============================================================
+   PAGINATION — page buttons + "rows per page" select
+   <nav class="pager"><button class="pager-btn active">1</button>…</nav>
+   ============================================================ */
+.pager {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.pager-btn {
+  min-width: 34px;
+  height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--text-body);
+  font-size: .8rem;
+  font-weight: 600;
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .15s;
+}
+.pager-btn:hover:not(:disabled):not(.active) {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: var(--primary-soft);
+}
+.pager-btn.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+  cursor: default;
+}
+.pager-btn:disabled,
+.pager-btn.disabled { opacity: .45; cursor: not-allowed; }
+.pager-btn.disabled { pointer-events: none; }  /* server-side pager: <span class="pager-btn disabled"> */
+.pager-gap { min-width: 22px; text-align: center; color: var(--text-muted); font-size: .8rem; }
+
+.per-page {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: .8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.per-page .form-soft { width: auto; }
+
+@media (max-width: 575.98px) {
+  .pager-btn { min-width: 32px; height: 32px; padding: 0 8px; }
+}

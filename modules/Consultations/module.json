@@ -1,0 +1,23 @@
+{
+    "name": "Consultations",
+    "slug": "consultations",
+    "version": "1.0.0",
+    "description": {
+        "en": "\"Request a free consultation\" form: requests in the admin and an e-mail to the team",
+        "ru": "Форма «Заявка на бесплатную консультацию»: заявки в админке и письмо команде",
+        "ky": "«Акысыз консультацияга өтүнмө» формасы: өтүнмөлөр админкада жана командага кат"
+    },
+    "core": false,
+    "provider": "Modules\\Consultations\\Providers\\ConsultationsServiceProvider",
+    "requires": ["services", "widgets"],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-inbox",
+        "order": 48,
+        "items": [
+            { "label": "consultations::admin.menu", "route": "admin.consultations.index", "permission": "consultations.view" }
+        ]
+    },
+    "permissions": ["consultations.view", "consultations.edit", "consultations.delete"],
+    "widgets": ["Modules\\Consultations\\Widgets\\ConsultationFormWidget"]
+}

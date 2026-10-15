@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'menu' => 'Groups',
+    'title' => 'Groups',
+    'description' => 'Groups of users. What a group may do is set in Permissions.',
+    'create' => 'Add group',
+    'new' => 'New group',
+    'edit' => 'Edit group',
+    'back' => 'Back to the list',
+    'save' => 'Save',
+    'search' => 'Search groups',
+    'empty' => 'No groups found.',
+    'saved' => 'The group has been saved.',
+    'deleted' => 'The group has been deleted.',
+    'cannot_delete_protected' => 'Built-in groups cannot be deleted.',
+    'protected' => 'Built-in',
+    'all_permissions' => 'All',
+    'delete_text' => 'Its :count user(s) will lose the group\'s permissions. This cannot be undone.',
+    'name_help' => 'Identifier used in code: lowercase letters, numbers and dashes, e.g. "editors".',
+    'name_format' => 'The identifier may only contain lowercase letters, numbers and dashes, and must start with a letter.',
+    'name_protected' => 'Built-in groups keep their identifier.',
+    'permissions_hint' => 'Permissions are assigned to groups on the Permissions screen.',
+    'open_permissions' => 'Open Permissions',
+    'fields' => [
+        'title' => 'Title',
+        'name' => 'Identifier',
+        'users' => 'Users',
+        'permissions' => 'Permissions',
+    ],
+];
