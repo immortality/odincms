@@ -93,3 +93,74 @@
 .src-bar span.warn { background: var(--warning); }
 .src-bar span.violet { background: #8B5CF6; }
 .src-bar span.rose { background: #F43F5E; }
+
+/* ---------- Dashboard helpers (index-analytics / -ecommerce / -crm) ---------- */
+
+/* Axis labels under a chart: <div class="chart-axis"><span>Jan</span>…</div> */
+.chart-axis {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: .65rem;
+  color: var(--text-muted);
+}
+
+/* Series legend: <div class="chart-legend"><span><i style="--dot:var(--primary)"></i> Users</span></div> */
+.chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.chart-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart-legend i,
+.legend-row i {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--dot, var(--primary));
+}
+
+/* Tall bar chart — the spark bars, bigger: <div class="spark spark-lg">…</div> */
+.spark.spark-lg { height: 160px; gap: 10px; margin-top: 16px; }
+.spark.spark-lg span { border-radius: 4px 4px 0 0; }
+.spark.spark-lg span.hi { box-shadow: none; }
+.spark.spark-lg + .chart-axis span { flex: 1; text-align: center; }
+
+/* Donut (inline SVG, viewBox 0 0 36 36, r 15.915 → circumference 100)
+   Each segment: <circle class="donut-seg" style="--seg:var(--success)" stroke-dasharray="36 64" stroke-dashoffset="-58"> */
+.donut {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  margin: 4px auto 20px;
+}
+.donut svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut circle { fill: none; stroke-width: 3.6; }
+.donut .donut-track { stroke: var(--neutral-soft); }
+.donut .donut-seg { stroke: var(--seg, var(--primary)); }
+.donut-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  text-align: center;
+}
+.donut-value { font-size: 1.35rem; font-weight: 700; letter-spacing: -.02em; color: var(--text-dark); line-height: 1.1; }
+.donut-label { font-size: .72rem; color: var(--text-muted); }
+
+/* Legend list under a donut: dot + label + value */
+.legend-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: .82rem;
+  border-bottom: 1px solid #F1F5F9;
+}
+.legend-row:last-child { border-bottom: 0; padding-bottom: 0; }
+.legend-row .legend-label { flex: 1; color: var(--text-body); }
+.legend-row .legend-val { font-weight: 600; color: var(--text-dark); }
+.legend-row .legend-sub { min-width: 44px; text-align: right; font-size: .75rem; color: var(--text-muted); }

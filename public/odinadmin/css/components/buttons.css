@@ -1,5 +1,13 @@
 /* ============================================================
-   BUTTONS — soft, ghost, row action, filter tabs
+   BUTTONS — reference page: buttons.html
+   Styles:    .btn-brand (solid)  .btn-dim (tinted)  .btn-outline
+              .btn-soft (neutral white)  .btn-ghost (text)  .icon-btn / .row-action
+   Colours:   default primary; add .success .danger .warning .info .light .dark
+              (from base/palette.css) to .btn-brand / .btn-dim / .btn-outline
+   Modifiers: .btn-sm / .btn-lg  .btn-pill  .btn-square (icon only)  .btn-block
+   Loading:   <span class="spinner-border spinner-border-sm"></span> before the label
+
+   <button type="button" class="btn-brand success"><i class="fas fa-check"></i> Publish</button>
    ============================================================ */
 .btn-soft {
   border: 1px solid var(--border);
@@ -98,16 +106,60 @@
 .btn-brand.danger { background: var(--danger-hover); border-color: var(--danger-hover); }
 .btn-brand.danger:hover { background: #B91C1C; border-color: #B91C1C; box-shadow: 0 6px 16px -4px rgba(220, 38, 38, .45); }
 
-/* Smaller variant for toolbars: .btn-soft.btn-sm / .btn-brand.btn-sm */
-.btn-soft.btn-sm,
-.btn-brand.btn-sm { padding: 6px 12px; font-size: .78rem; }
-/* Larger / full-width variants (auth forms, primary page actions) */
-.btn-soft.btn-lg,
-.btn-brand.btn-lg { padding: 12px 20px; font-size: .9rem; }
-.btn-soft.btn-block,
-.btn-brand.btn-block { width: 100%; justify-content: center; }
-.btn-brand:disabled,
-.btn-soft:disabled { opacity: .65; cursor: not-allowed; box-shadow: none; }
+/* Other solid colours: .btn-brand.success / .warning / .info / .dark / .light */
+.btn-brand:is(.success, .warning, .info, .dark, .violet) {
+  background: var(--c-solid);
+  border-color: var(--c-solid);
+  color: var(--c-on);
+}
+.btn-brand:is(.success, .warning, .info, .dark, .violet):hover {
+  background: color-mix(in srgb, var(--c-solid) 88%, #000);
+  border-color: color-mix(in srgb, var(--c-solid) 88%, #000);
+  color: var(--c-on);
+  box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--c) 45%, transparent);
+}
+.btn-brand.light { background: var(--light-bg); border-color: var(--light-border); color: var(--light-text); }
+.btn-brand.light:hover { background: var(--light-border); border-color: var(--border-strong); color: var(--text-dark); box-shadow: none; }
+
+/* Tinted (soft fill, fills on hover) and outline buttons — any palette colour */
+.btn-dim,
+.btn-outline {
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  padding: 9px 16px;
+  font-size: .82rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all .15s;
+}
+.btn-dim { background: var(--c-bg); color: var(--c-text); }
+.btn-dim:hover { background: var(--c-solid); color: var(--c-on); }
+.btn-dim.light:hover { background: var(--light-border); color: var(--text-dark); }
+.btn-outline { background: #fff; border-color: var(--c-line); color: var(--c-text); }
+.btn-outline:hover { background: var(--c-bg); border-color: var(--c); color: var(--c-text); }
+
+/* Sizes, shapes and states — shared by all text buttons */
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-sm { padding: 6px 12px; font-size: .78rem; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-lg { padding: 12px 20px; font-size: .9rem; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-block { width: 100%; justify-content: center; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-pill { border-radius: var(--radius-pill); }
+/* Icon only: <button class="btn-brand btn-square" aria-label="Add"><i class="fas fa-plus"></i></button> */
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-square { width: 40px; height: 40px; padding: 0; justify-content: center; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-square.btn-sm { width: 32px; height: 32px; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline).btn-square.btn-lg { width: 48px; height: 48px; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline) .spinner-border-sm { width: 1em; height: 1em; border-width: .15em; }
+:is(.btn-soft, .btn-brand, .btn-dim, .btn-outline):is(:disabled, .disabled, [aria-disabled="true"]) {
+  opacity: .65;
+  cursor: not-allowed;
+  box-shadow: none;
+  pointer-events: none;
+}
 .btn-soft.danger:hover {
   background: var(--danger-soft);
   border-color: var(--danger);
@@ -136,3 +188,8 @@
 .icon-btn.danger:hover { background: var(--danger-soft); color: var(--danger); }
 .icon-btn.success:hover { background: var(--success-soft); color: var(--success); }
 .icon-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+
+/* A row of buttons (reference page, card headers, toolbars) */
+.btn-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.icon-btn:disabled,
+.icon-btn[aria-disabled="true"] { opacity: .4; cursor: not-allowed; background: transparent; color: var(--text-muted); }

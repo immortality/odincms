@@ -165,22 +165,36 @@ class Page extends Model implements CroppedImages, Linkable
      */
     public static function options(?Page $except = null): array
     {
-        $byParent = self::query()->ordered()->get()->groupBy(fn (Page $page) => $page->parent_id ?? 0);
-        $options = [];
+        return collect(self::tree($except))
+            ->mapWithKeys(fn (array $row) => [$row['page']->id => str_repeat('— ', $row['depth']).$row['page']->label()])
+            ->all();
+    }
 
-        $walk = function (int $parentId, int $depth) use (&$walk, $byParent, $except, &$options): void {
+    /**
+     * Every page in tree order (each subpage right below its parent), without $except and its subpages:
+     * the depth (0 = top level), the trail of titles ("About us / Team") and the number of subpages.
+     *
+     * @return list<array{page: Page, depth: int, trail: string, children: int}>
+     */
+    public static function tree(?Page $except = null): array
+    {
+        $byParent = self::query()->ordered()->get()->groupBy(fn (Page $page) => $page->parent_id ?? 0);
+        $rows = [];
+
+        $walk = function (int $parentId, int $depth, string $trail) use (&$walk, $byParent, $except, &$rows): void {
             foreach ($byParent->get($parentId, []) as $page) {
                 if ($except !== null && $page->id === $except->id) {
                     continue;
                 }
 
-                $options[$page->id] = str_repeat('— ', $depth).$page->label();
-                $walk($page->id, $depth + 1);
+                $pageTrail = $trail === '' ? $page->label() : $trail.' / '.$page->label();
+                $rows[] = ['page' => $page, 'depth' => $depth, 'trail' => $pageTrail, 'children' => $byParent->get($page->id, collect())->count()];
+                $walk($page->id, $depth + 1, $pageTrail);
             }
         };
-        $walk(0, 0);
+        $walk(0, 0, '');
 
-        return $options;
+        return $rows;
     }
 
     /**

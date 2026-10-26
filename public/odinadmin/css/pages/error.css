@@ -1,0 +1,42 @@
+/* ============================================================
+   ERROR PAGES — 404.html, 504.html
+   Uses the centered auth layout (body.auth-page.auth-page-soft > main.auth-center,
+   see pages/auth.css); only the message block is styled here.
+
+   <section class="error-box">
+     <div class="error-code">404</div>
+     <h1 class="error-title">Page not found</h1>
+     <p class="error-text">…</p>
+     <div class="btn-row justify-content-center">…</div>
+   </section>
+   ============================================================ */
+.error-box {
+  width: 100%;
+  max-width: 460px;
+  text-align: center;
+}
+.error-code {
+  font-size: 6rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -.05em;
+  color: var(--primary);
+  margin-bottom: 16px;
+}
+.error-title {
+  margin: 0 0 10px;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--text-dark);
+}
+.error-text {
+  margin: 0 0 28px;
+  font-size: .9rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+@media (max-width: 575.98px) {
+  .error-code { font-size: 4.5rem; }
+}

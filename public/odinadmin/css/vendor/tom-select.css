@@ -78,6 +78,10 @@
   font-weight: 600;
 }
 .ts-wrapper.multi .ts-control > div.item.active { background: var(--primary); color: #fff; }
+/* The base CSS sets padding-right: 0 !important on chips with a remove button (it expects the ×
+   on the right); ours sits on the left, so give the text its 8px back. */
+.ts-wrapper.plugin-remove_button:not(.rtl) .item,
+.ts-wrapper.plugin-remove_button:not(.rtl) .ts-control > div.item { padding: 2px 8px 2px 6px !important; }
 .ts-wrapper.plugin-remove_button .item .remove,
 .ts-wrapper.plugin-remove_button:not(.rtl) .item .remove {
   order: -1;
@@ -167,3 +171,13 @@ select.is-valid ~ .ts-wrapper .ts-control { border-color: var(--success); }
 .ts-media .av-sm { line-height: 1; }
 .ts-media .ts-icon { width: 16px; text-align: center; color: var(--text-muted); }
 .ts-dropdown .active .ts-media .ts-icon { color: var(--primary); }
+
+/* ---------- Tree options (data-ts="tree"): indented by data-depth ---------- */
+.ts-tree-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: calc(var(--depth, 0) * 18px);
+}
+.ts-tree-opt .ts-tree-branch { font-size: .68rem; color: var(--border-strong); }
+.ts-dropdown .active .ts-tree-opt .ts-tree-branch { color: var(--primary); }

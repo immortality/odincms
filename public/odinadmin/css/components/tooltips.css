@@ -1,0 +1,69 @@
+/* ============================================================
+   TOOLTIPS — Bootstrap tooltips, restyled. Reference page: tooltips.html
+   Started by js/app.js (Tooltip) for every [data-bs-toggle="tooltip"].
+
+   <button class="icon-btn" data-bs-toggle="tooltip" title="Edit" aria-label="Edit">…</button>
+   Light:     data-bs-custom-class="tooltip-light"
+   Placement: data-bs-placement="top | right | bottom | left" (default top)
+   Disabled element: put the tooltip on a wrapper <span class="d-inline-block" tabindex="0">
+   ============================================================ */
+.tooltip {
+  --bs-tooltip-bg: var(--text-dark);
+  --bs-tooltip-color: #fff;
+  --bs-tooltip-padding-x: 10px;
+  --bs-tooltip-padding-y: 6px;
+  --bs-tooltip-font-size: .76rem;
+  --bs-tooltip-border-radius: var(--radius-sm);
+  --bs-tooltip-opacity: 1;
+  --bs-tooltip-max-width: 240px;
+  --bs-tooltip-arrow-width: 10px;
+  --bs-tooltip-arrow-height: 5px;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.tooltip-inner { box-shadow: 0 6px 16px -6px rgba(15, 23, 42, .35); }
+
+/* Light: white with a soft shadow (on dark or busy backgrounds use the default) */
+.tooltip.tooltip-light {
+  --bs-tooltip-bg: #fff;
+  --bs-tooltip-color: var(--text-body);
+  filter: drop-shadow(0 0 1px rgba(15, 23, 42, .25)) drop-shadow(0 6px 12px rgba(15, 23, 42, .12));
+}
+.tooltip.tooltip-light .tooltip-inner { box-shadow: none; }
+
+/* Content inside a tooltip (data-bs-html="true") */
+.tooltip .tip-title { display: block; margin-bottom: 2px; font-weight: 700; }
+.tooltip kbd {
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  background: rgba(255, 255, 255, .16);
+  font-family: inherit;
+  font-size: .7rem;
+  font-weight: 600;
+  color: inherit;
+}
+.tooltip.tooltip-light kbd { background: var(--neutral-soft); }
+
+/* A small "?" next to a form label */
+.tip-icon {
+  margin-left: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: .78rem;
+  color: var(--text-muted);
+  cursor: help;
+}
+.tip-icon:hover,
+.tip-icon:focus-visible { color: var(--primary); }
+
+/* Dotted underline for a term explained by a tooltip */
+.tip-term {
+  border-bottom: 1px dotted var(--text-muted);
+  cursor: help;
+  text-decoration: none;
+}
+
+/* Hidden when the element it points to scrolls out of view */
+.tooltip[data-popper-reference-hidden] { display: none; }

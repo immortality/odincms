@@ -56,8 +56,9 @@
                     <div class="page-header">
                         <div>
                             @if ($breadcrumbs)
+                                {{-- odinadmin/breadcrumbs.html, arrow separators; spacing from .page-header .breadcrumb --}}
                                 <nav aria-label="breadcrumb">
-                                    <ol class="breadcrumb mb-1" style="font-size:.78rem;">
+                                    <ol class="breadcrumb breadcrumb-arrow">
                                         @foreach ($breadcrumbs as $label => $url)
                                             @if ($url && ! $loop->last)
                                                 <li class="breadcrumb-item"><a href="{{ $url }}">{{ $label }}</a></li>

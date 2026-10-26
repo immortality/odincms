@@ -85,3 +85,10 @@
 }
 .sum-label { flex: 1; font-size: .85rem; color: var(--text-body); }
 .sum-val { font-weight: 700; color: var(--text-dark); }
+
+/* Avatar stack: overlapping small avatars (task cards, calendar details)
+   <div class="av-stack"><span class="av-sm av-xs c1">JF</span><span class="av-sm av-xs c2">TM</span></div> */
+.av-stack { display: inline-flex; align-items: center; }
+.av-stack > .av-sm { box-shadow: 0 0 0 2px #fff; }
+.av-stack > .av-sm + .av-sm { margin-left: -6px; }
+.av-stack .av-more { background: var(--neutral-soft); color: var(--text-muted); }

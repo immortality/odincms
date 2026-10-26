@@ -41,6 +41,9 @@
     pending:   ['warning', 'Pending'],
     scheduled: ['info',    'Scheduled'],
     archived:  ['violet',  'Archived'],
+    active:    ['success', 'Active'],
+    invited:   ['info',    'Invited'],
+    suspended: ['danger',  'Suspended'],
   };
 
   // Cells that hold controls, not data: skipped by search and export

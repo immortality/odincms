@@ -1,0 +1,130 @@
+/* ============================================================
+   NAV TREE — menu editor tree, reference page: navigation.html
+   Drag & drop: SortableJS (js/navigation.js). Every item has its own
+   (possibly empty) child list, so any item can take subitems.
+
+   <ul class="nav-tree">
+     <li class="nt-item has-children" data-id="…" data-label-en="Services" …>
+       <div class="nt-row">
+         <button type="button" class="nt-toggle" aria-expanded="true" aria-label="Collapse"><i class="fas fa-chevron-right"></i></button>
+         <span class="nt-handle" title="Drag to move"><i class="fas fa-grip-vertical"></i></span>
+         <button type="button" class="nt-label"><span class="nt-title">Services</span><span class="nt-meta">/services</span></button>
+       </div>
+       <ul class="nt-list">…children…</ul>
+     </li>
+   </ul>
+
+   States: .nt-item.selected  .nt-item.collapsed  .nt-item.is-hidden (inactive item)
+   ============================================================ */
+.nav-tree,
+.nt-list { list-style: none; margin: 0; padding: 0; }
+.nt-list { padding-left: 24px; }
+.nt-list:empty { min-height: 2px; }
+/* While dragging, empty child lists get room so an item can be dropped into them */
+.nav-tree.is-dragging .nt-list:empty {
+  min-height: 12px;
+  margin: 0 0 6px 24px;
+  padding: 0;
+  border-left: 2px dashed var(--border-strong);
+}
+
+.nt-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  padding: 6px 10px 6px 6px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+  transition: border-color .15s, background .15s;
+}
+.nt-row:hover { border-color: var(--border-strong); }
+.nt-item.selected > .nt-row { border-color: var(--primary); background: var(--primary-soft); }
+
+.nt-toggle {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: .7rem;
+  cursor: pointer;
+}
+.nt-toggle:hover { background: var(--neutral-soft); color: var(--text-dark); }
+.nt-toggle i { transition: transform .15s; }
+.nt-toggle[aria-expanded="true"] i { transform: rotate(90deg); }
+.nt-item:not(.has-children) > .nt-row .nt-toggle { visibility: hidden; }
+.nt-item.collapsed > .nt-list { display: none; }
+
+.nt-handle {
+  flex-shrink: 0;
+  padding: 0 4px;
+  color: var(--border-strong);
+  cursor: grab;
+}
+.nt-handle:hover { color: var(--text-muted); }
+.nt-handle:active { cursor: grabbing; }
+
+.nt-label {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 2px 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.nt-label:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; border-radius: var(--radius-xs); }
+.nt-title { font-size: .84rem; font-weight: 600; color: var(--text-dark); white-space: nowrap; }
+.nt-title i { margin-right: 6px; color: var(--text-muted); font-size: .8em; }
+.nt-meta {
+  min-width: 0;
+  font-size: .74rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.nt-item.is-hidden > .nt-row .nt-title { color: var(--text-muted); }
+
+/* Drag states (SortableJS classes) */
+.nt-item.sortable-ghost > .nt-row { border-style: dashed; border-color: var(--primary); background: var(--primary-soft); opacity: .6; }
+.nt-item.sortable-ghost > .nt-list { display: none; }
+.nt-item.sortable-drag > .nt-row { box-shadow: var(--shadow-drop); }
+
+/* Toolbar above the tree and the edit panel next to it */
+.nt-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.nt-panel {
+  height: 100%;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-card);
+}
+.nt-panel-title { margin: 0 0 16px; font-size: .9rem; font-weight: 700; color: var(--text-dark); }
+.nt-empty {
+  height: 100%;
+  min-height: 220px;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  text-align: center;
+  font-size: .84rem;
+  color: var(--text-muted);
+}
+.nt-empty i { font-size: 1.6rem; color: var(--border-strong); }

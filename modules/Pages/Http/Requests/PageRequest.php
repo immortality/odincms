@@ -60,6 +60,8 @@ class PageRequest extends FormRequest
             'parent_id' => ['nullable', 'integer', Rule::exists('pages', 'id')->whereNull('deleted_at')],
             'layout' => ['required', Rule::in(array_keys(Page::layouts()))],
             'status' => ['required', Rule::in(Page::statuses())],
+            // Empty: last among the siblings (or unchanged while the parent stays the same).
+            'sort_order' => ['nullable', 'integer', 'min:0', 'max:999999'],
             // image, image_crop, image_remove (<x-admin.form.cropped-image>)
             ...CroppedImageInput::rules('image'),
         ];
@@ -109,6 +111,7 @@ class PageRequest extends FormRequest
             'slug' => __('pages::admin.fields.slug'),
             'parent_id' => __('pages::admin.fields.parent'),
             'layout' => __('pages::admin.fields.layout'),
+            'sort_order' => __('pages::admin.fields.sort_order'),
             'image' => __('pages::admin.fields.image'),
         ];
 
@@ -137,6 +140,7 @@ class PageRequest extends FormRequest
             'parent_id' => $this->validated('parent_id') ? (int) $this->validated('parent_id') : null,
             'layout' => (string) $this->validated('layout'),
             'status' => (string) $this->validated('status'),
+            'sort_order' => $this->validated('sort_order') !== null ? (int) $this->validated('sort_order') : null,
         ];
     }
 }

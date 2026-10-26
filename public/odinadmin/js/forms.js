@@ -4,7 +4,9 @@
    Tom Select, flatpickr (+ l10n files), Dropzone 5.
 
    Components (all extend Odin.Component, created automatically):
-     SelectField     select[data-ts]            Tom Select. data-ts = "default" | "avatar" | "icon"
+     SelectField     select[data-ts]            Tom Select. data-ts = "default" | "avatar" | "icon" | "tree"
+                       tree: <option data-depth="1" data-path="About Us / Our Team">Our Team</option>,
+                       options in tree order; shown indented, the chosen one shows its path
                        Required single select: start with <option value=""></option> (needs value="",
                        otherwise Tom Select adds its own empty option at the end and validation passes)
                        data-placeholder="…"  data-clear="true"  data-create="true" (new tags)
@@ -19,7 +21,9 @@
      CharCounter     [maxlength][data-count="#id"]
      PasswordToggle  [data-toggle-password="#id"]
      Indeterminate   input[data-indeterminate]
-     FormValidator   form.needs-validation      Bootstrap validation (demo: never posts)
+     FormValidator   form.needs-validation      Bootstrap validation (demo: never posts). Tabs inside the
+                       form turn red (.has-error) when their panel holds an invalid field, and the
+                       first invalid field is revealed (its tab panels opened) and focused.
    ============================================================ */
 (function (Odin) {
   'use strict';
@@ -51,12 +55,15 @@
         render: this.renderers(this.el.dataset.ts),
       };
       if (!search) settings.controlInput = null;
+      // Tree: keep the tree order while searching, so children stay under their parents
+      if (this.el.dataset.ts === 'tree') settings.sortField = [{ field: '$order' }, { field: '$score' }];
 
       this.ts = new TomSelect(this.el, settings);
     }
 
-    /** Option/item templates for data-ts="avatar" and "icon". */
+    /** Option/item templates for data-ts="avatar", "icon" and "tree". */
     renderers(type) {
+      if (type === 'tree') return this.treeRenderers();
       if (type !== 'avatar' && type !== 'icon') return {};
       const media = (data, escape) => {
         const opt = data.$option ? data.$option.dataset : {};
@@ -69,6 +76,19 @@
         return `<div><span class="ts-media">${lead}<span>${escape(data.text)}</span></span></div>`;
       };
       return { option: media, item: media };
+    }
+
+    /** Tree: options indented by data-depth; the chosen item shows data-path ("About Us / Our Team"). */
+    treeRenderers() {
+      const opt = data => (data.$option ? data.$option.dataset : {});
+      return {
+        option: (data, escape) => {
+          const depth = Number(opt(data).depth || 0);
+          const branch = depth ? '<i class="ts-tree-branch fas fa-level-up-alt fa-rotate-90" aria-hidden="true"></i>' : '';
+          return `<div><span class="ts-tree-opt" style="--depth:${depth}">${branch}<span>${escape(data.text)}</span></span></div>`;
+        },
+        item: (data, escape) => `<div>${escape(opt(data).path || data.text)}</div>`,
+      };
     }
 
     /** Re-reads the <select> (e.g. after a native form reset). */
@@ -313,6 +333,28 @@
       this.success = this.$('[data-form-success]');
       this.on(this.el, 'submit', e => this.submit(e));
       this.on(this.el, 'reset', () => this.reset());
+      this.on(this.el, 'input', () => this.markTabs());
+      this.on(this.el, 'change', () => this.markTabs());
+    }
+
+    /** Tabs inside the form (language tabs, settings tabs): red when their panel has an invalid field. */
+    markTabs() {
+      const checked = this.el.classList.contains('was-validated');
+      this.$$('[data-bs-toggle="tab"]').forEach(tab => {
+        const pane = this.el.querySelector(tab.dataset.bsTarget);
+        tab.classList.toggle('has-error', checked && !!pane && !!pane.querySelector(':invalid'));
+      });
+    }
+
+    /** Opens every tab panel around the field (outer settings tab, inner language tab). */
+    reveal(field) {
+      if (!window.bootstrap) return;
+      const panes = [];
+      for (let pane = field.closest('.tab-pane'); pane; pane = pane.parentElement.closest('.tab-pane')) panes.unshift(pane);
+      panes.forEach(pane => {
+        const tab = this.el.querySelector(`[data-bs-toggle="tab"][data-bs-target="#${pane.id}"]`);
+        if (tab) bootstrap.Tab.getOrCreateInstance(tab).show();
+      });
     }
 
     submit(e) {
@@ -320,6 +362,7 @@
       const valid = this.el.checkValidity();
       this.el.classList.add('was-validated');
       if (this.success) this.success.hidden = !valid;
+      this.markTabs();
       if (!valid) this.focusFirstInvalid();
       this.emit(valid ? 'form-valid' : 'form-invalid');
     }
@@ -327,6 +370,7 @@
     focusFirstInvalid() {
       const first = this.$(':invalid');
       if (!first) return;
+      this.reveal(first);
       const select = Odin.get(first, 'select');
       if (select) select.focus();
       else first.focus();
@@ -335,6 +379,7 @@
     reset() {
       this.el.classList.remove('was-validated');
       if (this.success) this.success.hidden = true;
+      this.markTabs();
       // Native reset runs after this event: then sync widgets with the restored values
       setTimeout(() => {
         this.$$('select[data-ts]').forEach(el => { const s = Odin.get(el, 'select'); if (s) s.sync(); });

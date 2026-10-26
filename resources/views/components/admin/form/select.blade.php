@@ -24,14 +24,13 @@
 @endphp
 
 @if ($searchable)
-    @once
-        @push('admin-vendor-styles')
-            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/css/tom-select.css">
-        @endpush
-        @push('admin-vendor')
-            <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
-        @endpush
-    @endonce
+    {{-- Same keys as <x-admin.form.tree-select>: the library loads once per page. --}}
+    @pushOnce('admin-vendor-styles', 'tom-select-css')
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/css/tom-select.css">
+    @endPushOnce
+    @pushOnce('admin-vendor', 'tom-select-js')
+        <script src="https://cdn.jsdelivr.net/npm/tom-select@2.6.2/dist/js/tom-select.complete.min.js"></script>
+    @endPushOnce
 @endif
 
 <div class="mb-3">

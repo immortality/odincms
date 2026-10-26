@@ -1,3 +1,10 @@
+{{-- The page tree as a tree table (odinadmin/pages-list.html, odinadmin/js/tree-table.js). Search, the status
+     filter and expand / collapse run in the browser; "Save order" posts to data-reorder (resources/js/admin.js). --}}
+@php
+    $canEdit = auth()->user()->can('pages.edit');
+    $statuses = __('pages::admin.statuses');
+@endphp
+
 <x-admin-layout::app
     :title="__('pages::admin.title')"
     :description="__('pages::admin.description')"
@@ -11,28 +18,7 @@
         </x-slot:actions>
     @endcan
 
-    <div class="card card-auto mb-4">
-        <div class="table-toolbar border-0">
-            <x-admin.filters :action="route('admin.pages.index')" :placeholder="__('pages::admin.search')" />
-        </div>
-    </div>
-
-    @if ($results !== null)
-        <div class="card card-auto">
-            <div class="card-body">
-                @forelse ($results as $page)
-                    <div @class(['drag-item has-handle', 'mt-2' => ! $loop->first])>
-                        @include('pages::admin.row', ['page' => $page])
-                    </div>
-                @empty
-                    <div class="text-center py-4" style="color:var(--text-muted);font-size:.85rem;">
-                        <i class="fas fa-search d-block mb-2" style="font-size:1.6rem;color:var(--border-strong);"></i>
-                        {{ __('pages::admin.not_found') }}
-                    </div>
-                @endforelse
-            </div>
-        </div>
-    @elseif ($tree === [])
+    @if ($rows === [])
         <div class="card card-auto">
             <div class="card-body text-center py-5" style="color:var(--text-muted);font-size:.85rem;">
                 <i class="far fa-folder-open d-block mb-2" style="font-size:1.6rem;color:var(--border-strong);"></i>
@@ -40,75 +26,72 @@
             </div>
         </div>
     @else
-        {{-- Left: the jsTree; right: the selected page. See resources/js/admin/page-tree.js. --}}
-        <div class="row g-4" data-page-tree-wrap>
-            <div class="col-lg-5">
-                <div class="card card-auto">
-                    <div class="card-body">
-                        <div data-page-tree
-                             @can('pages.edit') data-reorder="{{ route('admin.pages.reorder') }}" @endcan
-                             data-max-depth="{{ \Modules\Pages\Http\Controllers\Admin\PageController::MAX_DEPTH }}"></div>
-                        <script type="application/json" data-page-tree-data>@json($tree)</script>
+        <div class="card card-auto" data-tree-table data-tree-labels="{{ json_encode(__('pages::admin.tree')) }}"
+             @if ($canEdit) data-reorder="{{ route('admin.pages.reorder') }}" data-reorder-error="{{ __('pages::admin.order_error') }}" @endif>
+            <div class="table-toolbar">
+                <div class="tt-filters">
+                    <div class="input-icon tt-search">
+                        <i class="fas fa-search"></i>
+                        <input type="search" class="form-control form-soft" placeholder="{{ __('pages::admin.search') }}"
+                               aria-label="{{ __('pages::admin.search') }}" data-tree-search>
                     </div>
-                    @can('pages.edit')
-                        <div class="table-footer">
-                            <span class="table-info"><i class="fas fa-info-circle me-1"></i> {{ __('pages::admin.tree_hint') }}</span>
-                        </div>
-                    @endcan
+                    <select class="form-select form-soft tt-select" aria-label="{{ __('pages::admin.fields.status') }}" data-tree-filter="status">
+                        <option value="">{{ __('pages::admin.all_statuses') }}</option>
+                        @foreach ($statuses as $value => $label)
+                            <option value="{{ $value }}">{{ $label }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="tt-actions">
+                    <button type="button" class="btn-soft" data-tree-expand><i class="fas fa-angle-double-down"></i> {{ __('pages::admin.expand_all') }}</button>
+                    <button type="button" class="btn-soft" data-tree-collapse><i class="fas fa-angle-double-up"></i> {{ __('pages::admin.collapse_all') }}</button>
                 </div>
             </div>
 
-            <div class="col-lg-7">
-                <div class="card card-auto page-tree-panel" data-page-panel>
-                    <div class="card-body text-center py-5" style="color:var(--text-muted);font-size:.85rem;" data-panel-empty>
-                        <i class="far fa-file-alt d-block mb-2" style="font-size:2rem;color:var(--border-strong);"></i>
-                        {{ __('pages::admin.select_hint') }}
-                    </div>
-
-                    <div class="card-body" data-panel-page hidden>
-                        <img src="" alt="" class="page-tree-panel-image mb-3" data-panel-image hidden>
-
-                        <h2 class="page-title mb-3" style="font-size:1.15rem;">
-                            <span data-panel-title></span>
-                            <span class="badge-soft warning ms-1 align-middle" data-panel-status hidden></span>
-                        </h2>
-
-                        <div class="mb-4">
-                            <div class="sum-row">
-                                <div class="sum-ico"><i class="fas fa-link"></i></div>
-                                <span class="sum-label">{{ __('pages::admin.fields.slug') }}</span>
-                                <span class="code-tag" data-panel-slug></span>
-                            </div>
-                            <div class="sum-row">
-                                <div class="sum-ico"><i class="fas fa-globe"></i></div>
-                                <span class="sum-label">{{ __('pages::admin.fields.address') }}</span>
-                                <a href="#" target="_blank" rel="noopener" class="text-decoration-none" data-panel-url>
-                                    <span data-panel-path></span> <i class="fas fa-external-link-alt" style="font-size:.7rem;"></i>
-                                </a>
-                            </div>
-                            <div class="sum-row">
-                                <div class="sum-ico"><i class="far fa-object-group"></i></div>
-                                <span class="sum-label">{{ __('pages::admin.fields.layout') }}</span>
-                                <span class="sum-val" data-panel-layout></span>
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-wrap gap-2">
-                            @can('pages.edit')
-                                <a href="#" class="btn-brand" data-panel-edit>
-                                    <i class="fas fa-pen"></i> {{ __('Edit') }}
-                                </a>
-                            @endcan
-                            @can('pages.delete')
-                                {{-- The action and the message are set for the selected page. --}}
-                                <div data-panel-delete>
-                                    <x-admin.confirm-delete action="#" />
-                                </div>
-                            @endcan
-                        </div>
+            @if ($canEdit)
+                {{-- Shown after rows were dragged --}}
+                <div class="tree-order-bar" data-tree-order-bar hidden>
+                    <i class="fas fa-info-circle"></i> {{ __('pages::admin.order_changed') }}
+                    <div class="btn-row">
+                        <button type="button" class="btn-soft btn-sm" data-tree-undo><i class="fas fa-undo"></i> {{ __('pages::admin.undo') }}</button>
+                        <button type="button" class="btn-brand btn-sm" data-tree-save><i class="fas fa-save"></i> {{ __('pages::admin.save_order') }}</button>
                     </div>
                 </div>
+            @endif
+
+            <div class="table-responsive">
+                <table class="table table-custom table-padded table-scroll align-middle">
+                    <thead>
+                        <tr>
+                            @if ($canEdit)
+                                <th class="col-handle"><span class="visually-hidden">{{ __('pages::admin.columns.order') }}</span></th>
+                            @endif
+                            <th style="width:70px;">{{ __('pages::admin.columns.id') }}</th>
+                            <th>{{ __('pages::admin.columns.title') }}</th>
+                            <th>{{ __('pages::admin.columns.layout') }}</th>
+                            <th>{{ __('pages::admin.columns.status') }}</th>
+                            <th>{{ __('pages::admin.columns.updated') }}</th>
+                            <th class="col-actions">{{ __('pages::admin.columns.actions') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($rows as $row)
+                            @include('pages::admin.row', ['page' => $row['page'], 'depth' => $row['depth'], 'children' => $row['children'], 'canEdit' => $canEdit])
+                        @endforeach
+                        <tr class="table-empty" data-tree-empty hidden>
+                            <td colspan="{{ $canEdit ? 7 : 6 }}"><i class="far fa-folder-open"></i>{{ __('pages::admin.not_found') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <span class="table-info" data-tree-info></span>
             </div>
         </div>
     @endif
+
+    @push('admin-scripts')
+        <script src="{{ asset('odinadmin/js/tree-table.js') }}?ver={{ config('cms.odinadmin_version') }}"></script>
+    @endpush
 </x-admin-layout::app>

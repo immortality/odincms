@@ -23,7 +23,10 @@
 @import url("components/accordions.css");
 @import url("components/tabs.css");
 @import url("components/modals.css");
+@import url("components/tooltips.css");
+@import url("components/breadcrumbs.css");
 @import url("components/drag-drop.css");
+@import url("components/nav-tree.css");
 @import url("components/cards.css");
 @import url("components/dropdowns.css");
 @import url("components/charts.css");
@@ -33,6 +36,10 @@
 
 /* Pages (only used by their own page) */
 @import url("pages/auth.css");
+@import url("pages/error.css");
+@import url("pages/settings.css");
+@import url("pages/tasks.css");
+@import url("pages/file-manager.css");
 
 /* Vendor themes — restyle third-party widgets. Pages that use them load the
    library's own CSS from the CDN *before* this file (see form-elements.html). */
@@ -41,3 +48,4 @@
 @import url("vendor/dropzone.css");
 @import url("vendor/sweetalert2.css");
 @import url("vendor/dragula.css");
+@import url("vendor/fullcalendar.css");

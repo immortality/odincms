@@ -1,0 +1,124 @@
+/* ============================================================
+   FULLCALENDAR 6.1 — OdinAdmin theme (calendar.html, js/calendar.js)
+   FullCalendar injects its own base CSS; this file only overrides it.
+   Events get .task-ev + a status class (.st-assigned / .st-progress /
+   .st-review / .st-completed from base/palette.css) and are drawn like
+   soft badges: tinted fill, coloured left edge.
+   ============================================================ */
+.fc {
+  --fc-border-color: var(--border);
+  --fc-page-bg-color: #fff;
+  --fc-neutral-bg-color: var(--neutral-soft);
+  --fc-today-bg-color: rgba(0, 180, 216, .05);
+  --fc-highlight-color: rgba(0, 180, 216, .10);
+  --fc-now-indicator-color: var(--danger);
+  --fc-small-font-size: .72rem;
+  --fc-list-event-hover-bg-color: var(--neutral-soft);
+  --fc-event-bg-color: var(--primary-bg);
+  --fc-event-border-color: transparent;
+  --fc-event-text-color: var(--primary-text);
+  height: 100%;
+  font-size: .82rem;
+  color: var(--text-body);
+}
+
+/* ---------- Toolbar ---------- */
+.fc .fc-toolbar.fc-header-toolbar { margin-bottom: 16px; gap: 12px; flex-wrap: wrap; }
+.fc .fc-toolbar-title { font-size: 1.15rem; font-weight: 700; letter-spacing: -.01em; color: var(--text-dark); }
+.fc .fc-button {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  box-shadow: none !important;
+  font-size: .78rem;
+  font-weight: 600;
+  text-transform: none;
+  color: var(--text-body);
+  transition: all .15s;
+}
+.fc .fc-button:hover { border-color: var(--primary); background: var(--primary-soft); color: var(--primary); }
+.fc .fc-button:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+.fc .fc-button:disabled { opacity: .5; background: #fff; border-color: var(--border); color: var(--text-muted); }
+.fc .fc-button-primary:not(:disabled).fc-button-active,
+.fc .fc-button-primary:not(:disabled):active {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: #fff;
+}
+.fc .fc-button .fc-icon { font-size: 1.1em; vertical-align: -2px; }
+.fc .fc-button-group > .fc-button:not(:first-child) { margin-left: -1px; }
+
+/* ---------- Month grid ---------- */
+.fc .fc-scrollgrid { border-radius: var(--radius-md); overflow: hidden; }
+.fc .fc-col-header-cell { padding: 8px 0; background: #F8FAFC; }
+.fc .fc-col-header-cell-cushion {
+  font-size: .68rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--text-muted);
+}
+.fc .fc-daygrid-day-number {
+  padding: 6px 8px;
+  font-size: .78rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text-body);
+}
+.fc .fc-day-other .fc-daygrid-day-number { color: var(--border-strong); }
+.fc .fc-day-today .fc-daygrid-day-number {
+  display: grid;
+  place-items: center;
+  min-width: 24px;
+  height: 24px;
+  margin: 4px 6px 0 0;
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--primary);
+  color: #fff;
+}
+.fc .fc-day-sat,
+.fc .fc-day-sun { background: #FCFCFD; }
+.fc .fc-day-today { background: var(--fc-today-bg-color) !important; }
+.fc .fc-daygrid-more-link { margin-left: 4px; font-size: .7rem; font-weight: 600; color: var(--primary-hover); }
+.fc .fc-popover { border: 0; border-radius: var(--radius-md); box-shadow: var(--shadow-drop); overflow: hidden; }
+.fc .fc-popover-header { padding: 8px 10px; background: #F8FAFC; font-size: .78rem; font-weight: 600; }
+
+/* ---------- Task events ---------- */
+.fc .task-ev {
+  margin: 1px 4px 2px;
+  padding: 2px 6px;
+  border: 0;
+  border-left: 3px solid var(--c);
+  border-radius: var(--radius-xs);
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-size: .72rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.fc .task-ev:hover { filter: brightness(.97); }
+.fc .task-ev .fc-event-main { color: var(--c-text); }
+.fc .task-ev.st-completed .task-ev-title { text-decoration: line-through; opacity: .75; }
+.fc .task-ev-inner { display: flex; align-items: center; gap: 5px; min-width: 0; }
+.fc .task-ev-title { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.fc .task-ev-flag { flex-shrink: 0; font-size: .62rem; color: var(--danger); }
+.fc .fc-event-dragging.task-ev { box-shadow: var(--shadow-drop); }
+.fc .fc-daygrid-event-harness .task-ev.fc-event-start:not(.fc-event-end) { border-radius: var(--radius-xs) 0 0 var(--radius-xs); }
+
+/* ---------- Week / list views ---------- */
+.fc .fc-timegrid-slot-label-cushion,
+.fc .fc-timegrid-axis-cushion { font-size: .7rem; color: var(--text-muted); }
+.fc .fc-list { border-radius: var(--radius-md); overflow: hidden; }
+.fc .fc-list-day-cushion { background: #F8FAFC; font-size: .78rem; }
+.fc .fc-list-event td { font-size: .82rem; }
+.fc .fc-list-event-dot { border-color: var(--c); }
+.fc .fc-list-event.task-ev { background: transparent; border-left: 0; color: var(--text-body); }
+.fc .fc-list-event.task-ev:hover td { background: var(--neutral-soft); }
+
+@media (max-width: 767.98px) {
+  .fc .fc-toolbar.fc-header-toolbar { flex-direction: column; align-items: stretch; }
+  .fc .fc-toolbar-chunk { display: flex; justify-content: center; }
+}

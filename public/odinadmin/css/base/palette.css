@@ -12,7 +12,7 @@
    ============================================================ */
 :is(.alert-soft, .alert-solid, .alert-outline, .alert-accent, .toast-item,
     .badge-soft, .badge-solid, .badge-outline, .badge-status, .badge-count, .badge-pip,
-    .modal-icon) {
+    .modal-icon, .btn-brand, .btn-dim, .btn-outline) {
   --c: var(--primary);
   --c-solid: var(--primary-hover);
   --c-on: #fff;
@@ -32,3 +32,9 @@
 .light,
 .muted   { --c: var(--light-text); --c-solid: var(--light-bg); --c-on: var(--light-text); --c-bg: var(--light-bg); --c-text: var(--light-text); --c-line: var(--light-border); }
 .dark    { --c: var(--dark); --c-solid: var(--dark); --c-on: var(--dark-text); --c-bg: var(--dark-soft-bg); --c-text: var(--dark-soft-text); }
+
+/* Task statuses (tasks.css): reuse the palette colours */
+.st-assigned  { --c: var(--violet);  --c-solid: var(--violet-hover);  --c-bg: var(--violet-bg);  --c-text: var(--violet-text); }
+.st-progress  { --c: var(--primary); --c-solid: var(--primary-hover); --c-bg: var(--primary-bg); --c-text: var(--primary-text); }
+.st-review    { --c: var(--warning); --c-solid: var(--warning);       --c-bg: var(--warning-bg); --c-text: var(--warning-text); }
+.st-completed { --c: var(--success); --c-solid: var(--success-hover); --c-bg: var(--success-bg); --c-text: var(--success-text); }

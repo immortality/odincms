@@ -21,13 +21,14 @@ describe('admin', function () {
         $this->actingAsUserWith(['pages.view'])->get(route('admin.pages.index'))->assertOk();
     });
 
-    it('shows the tree and searches pages', function () {
+    it('shows the tree in order, each subpage below its parent', function () {
         $about = Page::factory()->published()->create(['title' => ['en' => 'About us']]);
         Page::factory()->childOf($about)->create(['title' => ['en' => 'Our team']]);
         Page::factory()->create(['title' => ['en' => 'Contacts']]);
 
-        $this->actingAsAdmin()->get(route('admin.pages.index'))->assertOk()->assertSeeInOrder(['About us', 'Our team', 'Contacts']);
-        $this->actingAsAdmin()->get(route('admin.pages.index', ['search' => 'team']))->assertSee('Our team')->assertDontSee('Contacts');
+        $this->actingAsAdmin()->get(route('admin.pages.index'))->assertOk()
+            ->assertSeeInOrder(['About us', 'Our team', 'Contacts'])
+            ->assertSee('data-tree-search', false); // search and the status filter run in the browser
     });
 
     it('creates a page and a subpage with nested paths', function () {
@@ -88,6 +89,27 @@ describe('admin', function () {
         $this->actingAsAdmin()->put(route('admin.pages.update', $company), [
             'title' => ['en' => 'Company'], 'slug' => 'company', 'parent_id' => $lead->id, 'layout' => 'default', 'status' => 'published',
         ])->assertSessionHasErrors('parent_id');
+    });
+
+    it('saves the sort order from the form, or puts a moved page last', function () {
+        $about = Page::factory()->create(['slug' => 'about']);
+        Page::factory()->childOf($about)->create(['slug' => 'one', 'sort_order' => 1]);
+        Page::factory()->childOf($about)->create(['slug' => 'two', 'sort_order' => 2]);
+        $contacts = Page::factory()->create(['slug' => 'contacts']);
+        $data = ['title' => ['en' => 'Contacts'], 'slug' => 'contacts', 'layout' => 'default', 'status' => 'draft'];
+
+        $this->actingAsAdmin()->put(route('admin.pages.update', $contacts), [...$data, 'sort_order' => 7])->assertSessionHasNoErrors();
+        expect($contacts->fresh()->sort_order)->toBe(7);
+
+        // Moved with the old number untouched: last under the new parent.
+        $this->actingAsAdmin()->put(route('admin.pages.update', $contacts), [...$data, 'sort_order' => 7, 'parent_id' => $about->id])->assertSessionHasNoErrors();
+        expect($contacts->fresh()->sort_order)->toBe(3);
+
+        // Left empty, same parent: unchanged.
+        $this->actingAsAdmin()->put(route('admin.pages.update', $contacts), [...$data, 'sort_order' => '', 'parent_id' => $about->id])->assertSessionHasNoErrors();
+        expect($contacts->fresh()->sort_order)->toBe(3);
+
+        $this->actingAsAdmin()->put(route('admin.pages.update', $contacts), [...$data, 'sort_order' => -1])->assertSessionHasErrors('sort_order');
     });
 
     it('saves a new order and the new paths, refusing clashing slugs', function () {
@@ -169,16 +191,27 @@ describe('frontend', function () {
     });
 });
 
-it('puts Save and Delete in the page head, and each language in one tab', function () {
-    $page = Page::factory()->create();
+it('puts Delete in the page head, Save in the Publish card, and each language in one tab', function () {
+    $about = Page::factory()->create(['slug' => 'about', 'title' => ['en' => 'About']]);
+    $page = Page::factory()->childOf($about)->create(['slug' => 'team']);
 
     $this->actingAsAdmin()->get(route('admin.pages.edit', $page))
         ->assertOk()
-        ->assertSee('form="page-form"', false)->assertSee('id="page-form"', false)
-        ->assertSee('value="DELETE"', false)
-        // One Russian tab holds the title and the text; the SEO card has its own tabs.
-        ->assertSeeInOrder(['id="field-title-body-ru"', 'name="title[ru]"', 'name="body[ru]"', 'id="field-title-body-ky"'], false)
-        ->assertSeeInOrder(['id="field-meta_title-meta_description-ru"', 'name="meta_title[ru]"', 'name="meta_description[ru]"'], false);
+        ->assertSee('id="page-form"', false)
+        // The page head breadcrumb uses arrow separators (odinadmin/breadcrumbs.html).
+        ->assertSeeInOrder(['class="breadcrumb breadcrumb-arrow"', route('admin.pages.index'), 'aria-current="page"'], false)
+        ->assertSeeInOrder(['value="DELETE"', 'id="page-form"', __('pages::admin.publish'), 'type="submit"'], false)
+        // One Russian tab holds the title, the text and the search engine texts.
+        ->assertSeeInOrder(['id="field-title-body-meta_title-meta_description-ru"', 'name="title[ru]"', 'name="body[ru]"',
+            'name="meta_title[ru]"', 'name="meta_description[ru]"', 'id="field-title-body-meta_title-meta_description-ky"'], false)
+        // The parent select shows the tree; the slug prefix is the parent's address.
+        ->assertSee('data-ts="tree"', false)
+        ->assertSee('tom-select.complete.min.js', false)->assertSee('tom-select.css', false)
+        ->assertSee('data-depth="0" data-path="About"', false)
+        ->assertSee('/about/</span>', false);
+
+    // A page is never offered as its own parent.
+    $this->actingAsAdmin()->get(route('admin.pages.edit', $about))->assertOk()->assertDontSee('data-slug="about/team"', false);
 
     $this->actingAsAdmin()->get(route('admin.pages.create'))->assertOk()->assertDontSee('value="DELETE"', false);
     $this->actingAsUserWith(['pages.view', 'pages.edit'])->get(route('admin.pages.edit', $page))
@@ -186,30 +219,34 @@ it('puts Save and Delete in the page head, and each language in one tab', functi
         ->assertDontSee('value="DELETE"', false);
 });
 
-it('shows the pages as a jsTree with the details panel, Edit and Delete', function () {
+it('shows the pages as a tree table with drag handles, Edit and Delete', function () {
     $about = Page::factory()->published()->create(['slug' => 'about', 'title' => ['en' => 'About <us>']]);
-    Page::factory()->childOf($about)->create(['slug' => 'team', 'title' => ['en' => 'Team']]);
+    $team = Page::factory()->childOf($about)->create(['slug' => 'team', 'title' => ['en' => 'Team']]);
 
-    $response = $this->actingAsAdmin()->get(route('admin.pages.index'))->assertOk()
-        ->assertSee('data-page-tree', false)->assertSee('data-panel-edit', false)->assertSee('data-panel-delete', false)
-        ->assertSee('data-reorder="'.route('admin.pages.reorder').'"', false);
-
-    preg_match('#<script type="application/json" data-page-tree-data>(.*?)</script>#s', $response->getContent(), $match);
-    $nodes = json_decode($match[1], true);
-
-    expect($nodes)->toHaveCount(1)
-        ->and($nodes[0]['text'])->toBe('About &lt;us&gt;') // jsTree shows the text as HTML
-        ->and($nodes[0]['data'])->toMatchArray(['title' => 'About <us>', 'slug' => 'about', 'path' => 'about', 'image' => null,
-            'edit' => route('admin.pages.edit', $about), 'destroy' => route('admin.pages.destroy', $about)])
-        ->and($nodes[0]['children'][0]['data']['path'])->toBe('about/team')
-        ->and($nodes[0]['children'][0]['text'])->toContain(__('pages::admin.statuses.draft'));
+    $this->actingAsAdmin()->get(route('admin.pages.index'))->assertOk()
+        ->assertSee('data-tree-table', false)
+        ->assertSee('data-reorder="'.route('admin.pages.reorder').'"', false)
+        ->assertSee('About &lt;us&gt;', false)
+        ->assertSeeInOrder([
+            'data-id="'.$about->id.'" data-parent="" data-depth="0"',
+            'data-id="'.$team->id.'" data-parent="'.$about->id.'" data-depth="1"',
+            '/about/team',
+            __('pages::admin.statuses.draft'),
+        ], false)
+        ->assertSee('row-handle', false)
+        ->assertSee(route('admin.pages.edit', $team), false)
+        ->assertSee('action="'.route('admin.pages.destroy', $team).'"', false)
+        // A page with subpages cannot be deleted: no delete form, a disabled button.
+        ->assertDontSee('action="'.route('admin.pages.destroy', $about).'"', false)
+        ->assertSee('title="'.__('pages::admin.errors.has_children').'"', false);
 
     // Without edit and delete permissions: no reordering, no buttons.
     $this->actingAsUserWith(['pages.view'])->get(route('admin.pages.index'))->assertOk()
-        ->assertDontSee('data-reorder=', false)->assertDontSee('data-panel-edit', false)->assertDontSee('data-panel-delete', false);
+        ->assertDontSee('data-reorder=', false)->assertDontSee('row-handle', false)
+        ->assertDontSee(route('admin.pages.edit', $team), false)->assertDontSee('value="DELETE"', false);
 });
 
-it('saves a page image and shows it in the tree panel', function () {
+it('saves a page image and removes it', function () {
     Storage::fake('public');
 
     $this->actingAsAdmin()->post(route('admin.pages.store'), [
@@ -219,8 +256,6 @@ it('saves a page image and shows it in the tree panel', function () {
 
     $page = Page::sole();
     expect($page->imageUrl('image', 'thumb'))->toContain('conversions');
-
-    $this->actingAsAdmin()->get(route('admin.pages.index'))->assertSee('conversions', false);
 
     $this->actingAsAdmin()->put(route('admin.pages.update', $page), [
         'title' => ['en' => 'About'], 'slug' => 'about', 'layout' => 'default', 'status' => 'published', 'image_remove' => '1',

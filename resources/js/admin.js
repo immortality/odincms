@@ -136,7 +136,7 @@ function initSortables() {
 }
 
 /**
- * Drag-and-drop trees (menu links, categories, pages), rendered by <x-admin.tree>.
+ * Drag-and-drop trees (menu links, categories), rendered by <x-admin.tree>.
  * <div data-tree="{reorder url}"> holds nested ul.cms-tree > li.cms-tree-item[data-id] (each with a
  * .sortable-handle) and a [data-tree-save] button, which posts { items: [{id, parent_id}, …] } in display order.
  */
@@ -180,19 +180,50 @@ function initTrees() {
     });
 }
 
+/**
+ * Tree tables (Pages), odinadmin/js/tree-table.js: "Save order" posts { items: [{id, parent_id}, …] }
+ * in display order to data-reorder. If the server refuses, the "order has changed" bar comes back.
+ * <div data-tree-table data-reorder="{reorder url}">
+ */
+function initTreeTables() {
+    document.addEventListener('odin:tree-order-save', (event) => {
+        const root = event.target.closest('[data-tree-table][data-reorder]');
+        if (!root) return;
+
+        const items = event.detail.order.map((item) => ({ id: Number(item.id), parent_id: item.parent ? Number(item.parent) : null }));
+        const restore = () => {
+            const table = window.Odin?.get?.(root, 'treeTable');
+            if (!table) return;
+            table.saved = event.detail.previous;
+            table.checkOrder();
+        };
+
+        fetch(root.dataset.reorder, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json', 'X-CSRF-TOKEN': csrfToken() },
+            body: JSON.stringify({ items }),
+        })
+            .then(async (response) => {
+                const data = await response.json().catch(() => ({}));
+                if (!response.ok) throw new Error(data.message || root.dataset.reorderError || response.statusText);
+                toast(data.message);
+            })
+            .catch((error) => {
+                toast(error.message, 'error');
+                restore();
+            });
+    });
+}
+
 initConfirmForms();
 initBulkActions();
 initSortables();
 initTrees();
+initTreeTables();
 
 // TinyMCE is large: load it only on pages that contain an editor.
 if (document.querySelector('[data-editor]')) {
     import('./admin/editor.js').then(({ initEditors }) => initEditors());
-}
-
-// jsTree (Pages): only on the page tree.
-if (document.querySelector('[data-page-tree]')) {
-    import('./admin/page-tree.js').then(({ initPageTree }) => initPageTree());
 }
 
 // The image cropper too: only where a <x-admin.form.cropped-image> is.

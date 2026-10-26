@@ -1,0 +1,13 @@
+/* ============================================================
+   SETTINGS — settings.html
+   Vertical tabs on the left (sticky on large screens), one card per tab.
+   ============================================================ */
+@media (min-width: 992px) {
+  .settings-nav { position: sticky; top: calc(var(--topbar-h) + 24px); }
+}
+/* A table inside a card body: own border instead of the card's edges */
+.settings-table {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.settings-table .table-custom tbody tr:last-child td { border-bottom: 0; }

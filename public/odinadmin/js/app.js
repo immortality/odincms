@@ -20,7 +20,7 @@
      Odin.delegate(event, selector, handler)   one document-level listener
      Odin.dismissible(type, selector, closeFn) [data-dismiss="type"] buttons
      Odin.$ / Odin.$$                          querySelector helpers
-   Components in this file: Sidebar, Submenu, and the "badge" dismiss type.
+   Components in this file: Sidebar, Submenu, Tooltip, and the "badge" dismiss type.
    ============================================================ */
 (function (window, document) {
   'use strict';
@@ -193,8 +193,24 @@
     }
   }
 
+  /* ---------- Tooltip: Bootstrap tooltip on any [data-bs-toggle="tooltip"] ----------
+     Text from title="…". Options are Bootstrap's own data attributes:
+     data-bs-placement="top|right|bottom|left", data-bs-custom-class="tooltip-light",
+     data-bs-html="true", data-bs-trigger="click". Styles: css/components/tooltips.css */
+  class Tooltip extends Component {
+    static selector = '[data-bs-toggle="tooltip"]';
+
+    init() {
+      if (!window.bootstrap) return;
+      // Bootstrap's sanitizer drops <kbd> in data-bs-html tooltips; allow it for shortcuts
+      const allowList = Object.assign({}, bootstrap.Tooltip.Default.allowList, { kbd: [] });
+      this.tip = bootstrap.Tooltip.getOrCreateInstance(this.el, { allowList });
+    }
+  }
+
   Odin.register('sidebar', Sidebar);
   Odin.register('submenu', Submenu);
+  Odin.register('tooltip', Tooltip);
 
   // Removable badges (tags, active filters)
   Odin.dismissible('badge', '.badge-soft, .badge-solid, .badge-outline');

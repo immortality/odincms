@@ -1,0 +1,119 @@
+/* ============================================================
+   BREADCRUMBS — Bootstrap .breadcrumb, restyled. Reference page: breadcrumbs.html
+   Quiet by design: muted links, a light separator, the current page in dark text.
+
+   <nav aria-label="breadcrumb">
+     <ol class="breadcrumb">
+       <li class="breadcrumb-item"><a href="#">Pages</a></li>
+       <li class="breadcrumb-item active" aria-current="page">Our Team</li>
+     </ol>
+   </nav>
+
+   Separators: default "/"   .breadcrumb-arrow (chevron)   .breadcrumb-dot (·)
+   Size:       .breadcrumb-sm
+   Home icon:  <a class="breadcrumb-home" aria-label="Dashboard"><i class="fas fa-home"></i></a>
+   Long trail: <li class="breadcrumb-item"> with .breadcrumb-more + a .dropdown-menu.card-action-menu
+   Long title: .breadcrumb-truncate (one line, the current page ends with …)
+   Phones:     .breadcrumb-responsive (below 576px only "‹ parent" is shown)
+   ============================================================ */
+.breadcrumb {
+  --bs-breadcrumb-margin-bottom: 0;
+  --bs-breadcrumb-font-size: .8rem;
+  --bs-breadcrumb-item-padding-x: .5rem;
+  --bs-breadcrumb-divider-color: var(--border-strong);
+  --bs-breadcrumb-item-active-color: var(--text-dark);
+  align-items: center;
+  row-gap: 4px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.breadcrumb-item {
+  display: inline-flex;
+  align-items: center;
+  color: var(--text-muted);
+}
+.breadcrumb-item + .breadcrumb-item::before { float: none; }
+
+.breadcrumb-item a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--text-muted);
+  text-decoration: none;
+  border-radius: var(--radius-xs);
+  transition: color .15s;
+}
+.breadcrumb-item a:hover { color: var(--primary); }
+.breadcrumb-item a:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.breadcrumb-item i { font-size: .9em; }
+.breadcrumb-item.active { color: var(--text-dark); }
+
+/* Separators */
+.breadcrumb-dot { --bs-breadcrumb-divider: "·"; --bs-breadcrumb-item-padding-x: .45rem; }
+.breadcrumb-dot .breadcrumb-item + .breadcrumb-item::before { font-weight: 700; }
+.breadcrumb-arrow .breadcrumb-item + .breadcrumb-item::before {
+  content: "";
+  width: 6px;
+  height: 10px;
+  margin-right: var(--bs-breadcrumb-item-padding-x);
+  padding: 0;
+  background-color: var(--bs-breadcrumb-divider-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M1 1l4 4-4 4' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M1 1l4 4-4 4' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Small */
+.breadcrumb-sm { --bs-breadcrumb-font-size: .74rem; --bs-breadcrumb-item-padding-x: .4rem; }
+
+/* Home as an icon */
+.breadcrumb-home i { font-size: .95em; }
+
+/* Collapsed middle levels: "…" opens a menu */
+.breadcrumb-more {
+  display: inline-grid;
+  place-items: center;
+  min-width: 26px;
+  height: 22px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: .8rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+}
+.breadcrumb-more:hover,
+.breadcrumb-more[aria-expanded="true"] { background: var(--neutral-soft); color: var(--text-dark); }
+.breadcrumb-more:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+.breadcrumb .dropdown-menu { margin-top: 6px !important; }
+
+/* Long current title: stays on one line and ends with … */
+.breadcrumb-truncate { flex-wrap: nowrap; min-width: 0; }
+.breadcrumb-truncate .breadcrumb-item { flex-shrink: 0; white-space: nowrap; }
+.breadcrumb-truncate .breadcrumb-item.active {
+  display: block;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Phones: only a back link to the parent */
+@media (max-width: 575.98px) {
+  .breadcrumb-responsive .breadcrumb-item { display: none; }
+  .breadcrumb-responsive .breadcrumb-item:nth-last-child(2) { display: inline-flex; padding-left: 0; }
+  .breadcrumb-responsive .breadcrumb-item:nth-last-child(2)::before { content: none; }
+  .breadcrumb-responsive .breadcrumb-item:nth-last-child(2) a::before {
+    content: "";
+    width: 6px;
+    height: 10px;
+    background-color: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M5 1L1 5l4 4' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+            mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 6 10'%3E%3Cpath d='M5 1L1 5l4 4' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+  }
+}
+
+/* Above a page title (.page-header) */
+.page-header .breadcrumb { margin-bottom: 6px; }

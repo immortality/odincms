@@ -1,6 +1,6 @@
 /* ============================================================
    OdinAdmin — sign-in forms (needs js/app.js + js/forms.js for FormValidator).
-   Markup reference: login.html, login2.html
+   Markup reference: login.html, login2.html, register.html, forgot-password.html
 
    AuthForm   form[data-auth-form].needs-validation
      When FormValidator reports the form valid:
@@ -9,6 +9,9 @@
        - the form is then really submitted (FormValidator itself never posts).
      data-auth-demo  template only: no request; the password "wrong" shows the
                      [data-auth-error] alert, anything else opens data-auth-demo="index.html".
+                     A form with a [data-auth-success] block (forgot password) shows that
+                     block instead of leaving the page.
+     [data-match="#id"] on an input: must equal that input (repeat password).
    In cms/ remove data-auth-demo, set action="{{ route('login') }}" method="POST" and add @csrf.
    ============================================================ */
 (function (Odin) {
@@ -22,6 +25,15 @@
       this.error = this.$('[data-auth-error]');
       this.label = this.button && this.button.querySelector('[data-label]');
       this.idleText = this.label ? this.label.textContent : '';
+
+      // "Repeat password": <input data-match="#password"> is invalid until both values are equal
+      this.$$('[data-match]').forEach(input => {
+        const other = document.querySelector(input.dataset.match);
+        if (!other) return;
+        const check = () => input.setCustomValidity(input.value && input.value !== other.value ? 'mismatch' : '');
+        this.on(input, 'input', check);
+        this.on(other, 'input', check);
+      });
 
       this.on(this.el, 'odin:form-invalid', () => this.showError(false));
       this.on(this.el, 'odin:form-valid', () => this.submit());
@@ -57,6 +69,12 @@
           this.showError(true);
           password.focus();
           password.select();
+          return;
+        }
+        const success = this.$('[data-auth-success]');
+        if (success) {
+          this.setLoading(false);
+          success.hidden = false;
           return;
         }
         window.location.href = this.el.dataset.authDemo || 'index.html';
