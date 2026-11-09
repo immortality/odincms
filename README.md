@@ -3,10 +3,24 @@
 A modular CMS on Laravel 13. Every feature (users, blog, pages, menus, widgets, …) is a **module**
 in `modules/` that can be installed, enabled, disabled and uninstalled from the admin panel.
 
-- Admin panel at `/admin`, built on our own OdinAdmin template (`../odinadmin`, copied to `public/odinadmin`)
+![OdinCMS admin dashboard](docs/screenshots/dashboard.png)
+
+<details>
+<summary>Sign-in page</summary>
+
+![OdinCMS admin sign-in](docs/screenshots/login.png)
+
+</details>
+
+## Features
+
+- Admin panel at `/admin`, built on our own OdinAdmin template (`public/odinadmin`)
 - Content in several languages (en, ru, ky by default) with `/ru/…` URLs
 - Groups and permissions (spatie/laravel-permission), two-factor login (Fortify)
-- Core modules: Users, Groups, Permissions, Modules, Settings, Navigation, Widgets, Categories, Blog, Pages
+- Core modules: Users, Groups, Permissions, Modules, Settings, Navigation, Widgets, Categories, Blog,
+  Pages, Media library
+- Optional modules: Services, Banners, Sections, Contacts, Consultations
+- `php artisan cms:make:module` scaffolds a new module with CRUD, translations and a test
 
 ## Requirements
 
@@ -100,3 +114,27 @@ show up in the tests.
   processes an image; allow that in php.ini (or install Imagick).
 - Every response carries security headers (`App\Http\Middleware\SecurityHeaders`); HSTS is sent on
   HTTPS in production.
+
+## Contributing
+
+Bug reports and pull requests are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) first. To report a
+security problem, follow [SECURITY.md](SECURITY.md) and do not open a public issue.
+
+## Contact
+
+OdinZero: odinzeroofficial@gmail.com
+
+## License
+
+OdinCMS is open-source software under the [MIT license](LICENSE).
+
+The OdinAdmin template in `public/odinadmin` is **not** MIT. You may use and change it as part of
+OdinCMS, but you may not sell it or share it on its own: see
+[public/odinadmin/LICENSE.md](public/odinadmin/LICENSE.md).
+
+Third-party parts keep their own licenses, among them:
+
+- Country flags in `public/flags`: [flag-icons](https://github.com/lipis/flag-icons) (MIT)
+- [TinyMCE](https://www.tiny.cloud/) rich text editor (GPL-2.0-or-later, used with `license_key: 'gpl'`)
+- Laravel, Bootstrap, Alpine.js, Font Awesome Free, Leaflet, Cropper.js, SortableJS and the spatie
+  packages: see `composer.json` and `package.json`

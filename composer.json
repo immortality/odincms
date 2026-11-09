@@ -5,6 +5,17 @@
     "description": "OdinCMS: a modular CMS built on Laravel.",
     "keywords": ["laravel", "cms"],
     "license": "MIT",
+    "authors": [
+        {
+            "name": "OdinZero",
+            "email": "odinzeroofficial@gmail.com"
+        }
+    ],
+    "support": {
+        "email": "odinzeroofficial@gmail.com",
+        "issues": "https://github.com/immortality/odincms/issues",
+        "source": "https://github.com/immortality/odincms"
+    },
     "require": {
         "php": "^8.3",
         "laravel/fortify": "^1.40",

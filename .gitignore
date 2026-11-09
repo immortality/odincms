@@ -26,6 +26,7 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 
-# AI agent instructions (local only)
+# AI agent instructions and prompts (local only)
 /CLAUDE.md
 /AGENTS.md
+/why-choose-us-prompt.md

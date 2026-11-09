@@ -74,7 +74,7 @@ return [
     'fields' => [
         'title' => 'Title',
         'image' => 'Image',
-            'body' => 'Text',
+        'body' => 'Text',
         'slug' => 'Slug',
         'parent' => 'Parent page',
         'layout' => 'Layout',
