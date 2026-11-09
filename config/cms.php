@@ -47,7 +47,7 @@ return [
 
     'core_modules' => [
         'users', 'groups', 'permissions', 'modules', 'settings',
-        'navigation', 'widgets', 'categories', 'blog', 'comments', 'pages',
+        'navigation', 'widgets', 'categories', 'blog', 'comments', 'pages', 'media',
     ],
 
     // Core modules that may still be disabled (never uninstalled).

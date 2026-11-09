@@ -231,6 +231,11 @@ if (document.querySelector('[data-cropped-image]')) {
     import('./admin/cropped-image.js').then(({ initCroppedImages }) => initCroppedImages());
 }
 
+// The media library page.
+if (document.querySelector('[data-media-library]')) {
+    import('./admin/media-library.js').then(({ initMediaLibrary }) => initMediaLibrary());
+}
+
 // Leaflet: only where a <x-admin.form.map> is.
 if (document.querySelector('[data-map-picker]')) {
     import('./admin/map-picker.js').then(({ initMapPickers }) => initMapPickers());

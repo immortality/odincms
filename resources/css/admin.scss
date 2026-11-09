@@ -122,3 +122,13 @@
 .editor-field.is-invalid .tox.tox-tinymce {
     border-color: var(--danger);
 }
+
+// Media library (modules/Media, odinadmin/css/pages/file-manager.css): the filter chips are links here
+a.fm-chip {
+    display: inline-block;
+    text-decoration: none;
+}
+
+.fm-nav-link .text-truncate {
+    min-width: 0;
+}

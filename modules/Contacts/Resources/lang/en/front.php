@@ -1,0 +1,36 @@
+<?php
+
+return [
+    'title' => 'Contacts',
+    'home' => 'Home',
+    // Settings → Contacts overrides both. Words in *asterisks* get the highlight.
+    'heading' => 'Get in *touch*',
+    'intro' => 'Have a project in mind or a question for us? Write to us — a real person on our team will reply.',
+    'form_eyebrow' => 'Write to us',
+    'form_title' => 'Send us a message',
+    'form_intro' => 'Tell us about your project or your question. We reply by e-mail.',
+    'form' => [
+        'name' => 'Your name',
+        'name_placeholder' => 'Jane Doe',
+        'email' => 'E-mail address',
+        'email_placeholder' => 'you@example.com',
+        'phone' => 'Phone',
+        'phone_placeholder' => '+996 555 000 000',
+        'subject' => 'Subject',
+        'subject_placeholder' => 'What is it about?',
+        'message' => 'Message',
+        'message_placeholder' => 'Tell us about your project, goals and timeline',
+        'optional' => '(optional)',
+        'submit' => 'Send message',
+    ],
+    'sent_title' => 'Thank you! Your message has been sent.',
+    'sent_text' => 'We will reply by e-mail within one business day.',
+    'send_another' => 'Send another message',
+    'rejected' => 'The message could not be sent. Please try again.',
+    'prefer_email' => 'Prefer e-mail?',
+    'call_us' => 'Prefer to call?',
+    'offices' => 'Our offices',
+    'open_map' => 'Open the map',
+    'map_title' => 'Map: :title',
+    'empty' => 'Our contact details will appear here soon. Meanwhile, use the form.',
+];

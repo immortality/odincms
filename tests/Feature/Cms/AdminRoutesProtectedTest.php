@@ -8,6 +8,8 @@ use Modules\Blog\Models\Post;
 use Modules\Categories\Models\Category;
 use Modules\Groups\Database\Seeders\GroupsDatabaseSeeder;
 use Modules\Groups\Models\Group;
+use Modules\Media\Models\MediaFile;
+use Modules\Media\Models\MediaFolder;
 use Modules\Navigation\Models\NavigationGroup;
 use Modules\Pages\Models\Page;
 use Modules\Services\Models\Service;
@@ -25,7 +27,7 @@ const OPEN_ADMIN_ROUTES = [
 ];
 
 beforeEach(function () {
-    foreach (['groups', 'users', 'permissions', 'modules', 'settings', 'navigation', 'widgets', 'categories', 'blog', 'pages', 'services'] as $module) {
+    foreach (['groups', 'users', 'permissions', 'modules', 'settings', 'navigation', 'widgets', 'categories', 'blog', 'pages', 'services', 'media'] as $module) {
         $this->useModule($module);
     }
     $this->seed(GroupsDatabaseSeeder::class);
@@ -59,6 +61,8 @@ function adminRouteParameters(string $name): array
             'action' => 'disable',
             'section' => 'site',
             'item' => Service::factory()->create()->id, // generated modules name the record {item}
+            'folder' => MediaFolder::create(['name' => 'Sweep'])->id,
+            'file' => MediaFile::create(['name' => 'sweep.pdf', 'disk' => 'public', 'path' => 'media/sweep.pdf', 'extension' => 'pdf', 'mime_type' => 'application/pdf', 'size' => 1])->id,
         ];
     })();
 

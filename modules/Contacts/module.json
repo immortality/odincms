@@ -1,11 +1,11 @@
 {
     "name": "Contacts",
     "slug": "contacts",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": {
-        "en": "Contact points (offices, branches) with address, phone, e-mail, a photo and a point on the map",
-        "ru": "Контакты (офисы, филиалы) с адресом, телефоном, e-mail, фото и точкой на карте",
-        "ky": "Байланыш пункттары (кеңселер, филиалдар): дареги, телефону, e-mail, сүрөтү жана картадагы чекити"
+        "en": "Contact points (offices, branches) with address, phone, e-mail, a photo and a point on the map; the contacts page with a message form",
+        "ru": "Контакты (офисы, филиалы) с адресом, телефоном, e-mail, фото и точкой на карте; страница контактов с формой сообщения",
+        "ky": "Байланыш пункттары (кеңселер, филиалдар): дареги, телефону, e-mail, сүрөтү жана картадагы чекити; билдирүү формасы бар байланыш барагы"
     },
     "core": false,
     "provider": "Modules\\Contacts\\Providers\\ContactsServiceProvider",
@@ -15,7 +15,8 @@
         "icon": "fas fa-address-book",
         "order": 45,
         "items": [
-            { "label": "contacts::admin.menu", "route": "admin.contacts.index", "permission": "contacts.view" }
+            { "label": "contacts::admin.menu", "route": "admin.contacts.index", "permission": "contacts.view" },
+            { "label": "contacts::messages.menu", "route": "admin.contacts.messages.index", "permission": "contacts.view" }
         ]
     },
     "permissions": ["contacts.view", "contacts.create", "contacts.edit", "contacts.delete"],

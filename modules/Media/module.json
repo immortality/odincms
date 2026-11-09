@@ -1,0 +1,22 @@
+{
+    "name": "Media",
+    "slug": "media",
+    "version": "1.0.0",
+    "description": {
+        "en": "The media library: images, documents and other files of the website in folders",
+        "ru": "Медиатека: изображения, документы и другие файлы сайта по папкам",
+        "ky": "Медиатека: сайттын сүрөттөрү, документтери жана башка файлдары папкалар боюнча"
+    },
+    "core": true,
+    "provider": "Modules\\Media\\Providers\\MediaServiceProvider",
+    "requires": [],
+    "admin_menu": {
+        "group": "content",
+        "icon": "fas fa-photo-video",
+        "order": 90,
+        "items": [
+            { "label": "media::admin.menu", "route": "admin.media.index", "permission": "media.view" }
+        ]
+    },
+    "permissions": ["media.view", "media.upload", "media.edit", "media.delete"]
+}
